@@ -2,7 +2,7 @@
 namespace App\Core;
 
 class Application {
-    protected $_controller = 'Login';
+    protected $_controller = 'login';
     protected $_method = 'index';
     protected $_parameters = [];
 
