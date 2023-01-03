@@ -1,8 +1,13 @@
 <?php
-use app\Core\Controller;
 
-class RegisterController extends Controller {
-    public function index() {
+namespace App\Controllers;
+
+use App\Core\Controller;
+
+class RegisterController extends Controller
+{
+    public function index()
+    {
         $data['title'] = 'Register';
         $this->view('templates/header', $data);
         $this->view('register/index');
