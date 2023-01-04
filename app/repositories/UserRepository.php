@@ -17,11 +17,10 @@ class UserRepository
 
     public function create(User $user): User
     {
-        $this->db->query("INSERT INTO user VALUES ('', :email, :password, :name, :role");
+        $this->db->query("INSERT INTO user(email, password, name) VALUES (:email, :password, :name)");
         $this->db->bind('email', $user->email);
         $this->db->bind('password', $user->password);
         $this->db->bind('name', $user->name);
-        $this->db->bind('role', $user->role);
         $this->db->execute();
 
         return $this->getLast();

@@ -10,7 +10,6 @@ class AdminHomeController extends Controller
     {
         if (isset($_SESSION['user_session'])) {
             $role = $_SESSION['user_session']['role'];
-            var_dump( $_SESSION['user_session']['role']);
             if ($role != "admin") {
                 header('Location: ' . BASE_URL . '/home');
                 exit();

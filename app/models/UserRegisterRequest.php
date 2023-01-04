@@ -9,5 +9,4 @@ class UserRegisterRequest
     public string $password;
     public string $confirm_password;
     public string $name;
-    public string $role;
 }
