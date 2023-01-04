@@ -7,11 +7,13 @@ use PDOException;
 
 class Database
 {
-    private $handler;
+    public $handler;
     private $statement;
 
-    public function __construct($config)
+    public function __construct()
     {
+        $config = include(__DIR__ .  '/../../config/config.php');
+
         $option = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -29,12 +31,12 @@ class Database
         }
     }
 
-    public function query($query)
+    public function query($query) : void
     {
         $this->statement = $this->handler->prepare($query);
     }
 
-    public function bind($param, $value, $type = NULL)
+    public function bind($param, $value, $type = NULL) : void
     {
         if (is_null($type)) {
             switch (true) {
@@ -56,18 +58,18 @@ class Database
         $this->statement->bindValue($param, $value, $type);
     }
 
-    public function execute()
+    public function execute() : bool
     {
-        $this->statement->execute();
+        return $this->statement->execute();
     }
 
-    public function fetch()
+    public function fetch(): mixed
     {
         $this->execute();
         return $this->statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function fetchAll()
+    public function fetchAll(): array
     {
         $this->execute();
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);

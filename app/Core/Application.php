@@ -54,7 +54,7 @@ class Application
         }
     }
 
-    private function getControllerPath($controller)
+    private function getControllerPath(string $controller)
     {
         return '../app/Controllers/' . $controller . '.php';
     }
