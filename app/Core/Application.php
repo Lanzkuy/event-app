@@ -2,6 +2,9 @@
 
 namespace App\Core;
 
+use App\Middleware\MustLoginMiddleware;
+use App\Middleware\MustNotLoginMiddleware;
+
 class Application
 {
     protected $controller = 'login';
@@ -16,7 +19,6 @@ class Application
             $url = [$this->controller];
         }
 
-        //Controller
         if (!file_exists($this->getControllerPath($url[0] . 'Controller'))) {
             require_once $this->getControllerPath('_404');
             return;
@@ -25,10 +27,17 @@ class Application
         $this->controller = $url[0] . 'Controller';
         unset($url[0]);
 
+        if ($this->controller != 'loginController' && $this->controller != 'registerController') {
+            $mustLoginMiddleware = new MustLoginMiddleware;
+            $mustLoginMiddleware->handle();
+        } else {
+            $mustNotLoginMiddleware = new MustNotLoginMiddleware;
+            $mustNotLoginMiddleware->handle();
+        }
+
         require_once $this->getControllerPath($this->controller);
         $this->controller = new ('App\\Controllers\\' . $this->controller);
 
-        //Method
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1])) {
                 $this->method = $url[1];
@@ -36,7 +45,6 @@ class Application
             }
         }
 
-        //Parameter
         if (!empty($url)) {
             $this->parameters = array_values($url);
         }

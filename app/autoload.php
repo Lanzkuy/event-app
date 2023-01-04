@@ -1,9 +1,12 @@
 <?php
+
+require_once '../config/config.php';
+require_once '../config/constants.php';
+
 spl_autoload_register(function ($class) {
     $class = explode('\\', $class);
     $class = end($class);
 
-    $config_path = '../config/' . $class . '.php';
     $core_path = __DIR__ . '/core/' . $class . '.php';
     $exceptions_path = __DIR__ . '/exceptions/' . $class . '.php';
     $middleware_path = __DIR__ . '/middleware/' . $class . '.php';
@@ -11,10 +14,6 @@ spl_autoload_register(function ($class) {
     $repository_path = __DIR__ . '/repositories/' . $class . '.php';
     $service_path = __DIR__ . '/services/' . $class . '.php';
     $controller_path = __DIR__ . '/controllers/' . $class . '.php';
-
-    if (file_exists($config_path)) {
-        require_once $config_path;
-    }
 
     if (file_exists($core_path)) {
         require_once $core_path;

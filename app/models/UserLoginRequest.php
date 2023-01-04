@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Models;
 
-class UserLoginRequest {
+class UserLoginRequest
+{
     public string $email;
     public string $password;
 }

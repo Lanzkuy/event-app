@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Models;
 
-class User {
+class User
+{
     public int $id;
     public string $email;
     public string $password;
