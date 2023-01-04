@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-class UserLoginResponse
+class UserRegisterRequest
 {
     public int $id;
     public string $email;
+    public string $password;
+    public string $confirm_password;
     public string $name;
     public string $role;
 }

@@ -33,11 +33,15 @@ class UserRepository
         return $this->db->fetchAll();
     }
 
-    public function find(string $key, string $value): User
+    public function find(string $key, string $value): ?User
     {
         $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE ' . $key . ' = :' . $key . ' AND deleted_at is null');
         $this->db->bind($key, $value);
         $data = $this->db->fetch();
+
+        if ($data == false) {
+            return null;
+        }
 
         $user = new User;
         $user->id = $data['id'];
