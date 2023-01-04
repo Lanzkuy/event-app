@@ -15,15 +15,16 @@ class UserRepository
         $this->db = new Database;
     }
 
-    public function create(User $user): bool
+    public function create(User $user): User
     {
         $this->db->query("INSERT INTO user VALUES ('', :email, :password, :name, :role");
         $this->db->bind('email', $user->email);
         $this->db->bind('password', $user->password);
         $this->db->bind('name', $user->name);
         $this->db->bind('role', $user->role);
+        $this->db->execute();
 
-        return$this->db->execute();
+        return $this->getLast();
     }
 
     public function getAll(): array
@@ -50,7 +51,24 @@ class UserRepository
         return $user;
     }
 
-    public function update(User $user) : bool
+    public function getLast(): User
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' ORDER BY id DESC LIMIT 1;');
+        $data = $this->db->fetch();
+
+        $user = new User;
+        $user->id = $data['id'];
+        $user->email = $data['email'];
+        $user->password = $data['password'];
+        $user->name = $data['name'];
+        $user->role = $data['role'];
+        $user->created_at = $data['created_at'];
+        $user->deleted_at = $data['deleted_at'];
+
+        return $user;
+    }
+
+    public function update(User $user): User
     {
         $this->db->query('UPDATE user SET email = :email, password = :password, name = :name, role = :role WHERE id = :id');
 
@@ -59,11 +77,12 @@ class UserRepository
         $this->db->bind('password', $user->password);
         $this->db->bind('name', $user->name);
         $this->db->bind('role', $user->role);
+        $this->db->execute();
 
-        return $this->db->execute();
+        return $this->getLast();
     }
 
-    public function delete($id) : bool
+    public function delete($id): bool
     {
         $this->db->query("UPDATE user SET deleted_at = :deleted_at WHERE id = :id");
 
