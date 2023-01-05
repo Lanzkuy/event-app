@@ -22,7 +22,7 @@ class HomeController extends Controller
         $this->view('templates/footer');
     }
 
-    public function logout()
+    public function logout() : void
     {
         $_SESSION['user_session'] = null;
         header("Location: ./");
