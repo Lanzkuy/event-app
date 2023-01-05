@@ -45,7 +45,7 @@ class UserService
         if (!preg_match($email_regex, $request->email)) {
             throw new InputValidationException('Email is not valid');
         }
-
+        
         if (empty(trim($request->name))) {
             throw new InputValidationException('Name must be filled');
         }
