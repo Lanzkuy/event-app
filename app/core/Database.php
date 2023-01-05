@@ -31,12 +31,12 @@ class Database
         }
     }
 
-    public function query($query) : void
+    public function query($query): void
     {
         $this->statement = $this->handler->prepare($query);
     }
 
-    public function bind($param, $value, $type = NULL) : void
+    public function bind($param, $value, $type = NULL): void
     {
         if (is_null($type)) {
             switch (true) {
@@ -58,7 +58,7 @@ class Database
         $this->statement->bindValue($param, $value, $type);
     }
 
-    public function execute() : bool
+    public function execute(): bool
     {
         return $this->statement->execute();
     }
