@@ -41,6 +41,11 @@ class UserService
             throw new InputValidationException('Email must be filled');
         }
 
+        $email_regex = "/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+(.com)+/";
+        if (!preg_match($email_regex, $request->email)) {
+            throw new InputValidationException('Email is not valid');
+        }
+        
         if (empty(trim($request->name))) {
             throw new InputValidationException('Name must be filled');
         }
@@ -67,11 +72,6 @@ class UserService
 
         if($request->confirm_password != $request->password) {
             throw new InputValidationException('Confirm password must be same as password');
-        }
-
-        $email_regex = "/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+(.com)+/";
-        if (!preg_match($email_regex, $request->email)) {
-            throw new InputValidationException('Email is not valid');
         }
     }
 
