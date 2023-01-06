@@ -85,7 +85,7 @@ class UserRepository
         return $this->getLast();
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET deleted_at = :deleted_at WHERE id = :id');
 
