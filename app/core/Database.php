@@ -74,4 +74,10 @@ class Database
         $this->execute();
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function rowCount(): int
+    {
+        $this->execute();
+        return $this->statement->rowCount();
+    }
 }
