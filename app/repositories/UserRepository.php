@@ -17,7 +17,7 @@ class UserRepository
 
     public function create(User $user): User
     {
-        $this->db->query("INSERT INTO user(email, password, name) VALUES (:email, :password, :name)");
+        $this->db->query('INSERT INTO ' . self::db_name . '(email, password, name) VALUES (:email, :password, :name)');
         $this->db->bind('email', $user->email);
         $this->db->bind('password', $user->password);
         $this->db->bind('name', $user->name);
@@ -73,7 +73,7 @@ class UserRepository
 
     public function update(User $user): User
     {
-        $this->db->query('UPDATE user SET email = :email, password = :password, name = :name, role = :role WHERE id = :id');
+        $this->db->query('UPDATE ' . self::db_name . ' SET email = :email, password = :password, name = :name, role = :role WHERE id = :id');
 
         $this->db->bind('id', $user->id);
         $this->db->bind('email', $user->email);
@@ -85,9 +85,9 @@ class UserRepository
         return $this->getLast();
     }
 
-    public function delete($id): bool
+    public function delete(int $id): bool
     {
-        $this->db->query("UPDATE user SET deleted_at = :deleted_at WHERE id = :id");
+        $this->db->query('UPDATE ' . self::db_name . ' SET deleted_at = :deleted_at WHERE id = :id');
 
         $this->db->bind('id', $id);
         $this->db->bind('deleted_at', date('y-m-d h:m:s', time()));
