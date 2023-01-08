@@ -43,7 +43,7 @@ class TicketService
         $ticket->type = $request->type;
         $ticket->description = $request->description;
 
-        $create = $this->ticketRepository->create($ticket);
+        $create = $this->ticketRepository->store($ticket);
 
         if (is_null($create)) {
             throw new Exception('Failed to create the ticket');
