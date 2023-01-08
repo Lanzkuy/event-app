@@ -27,15 +27,22 @@ class TicketRepository
         return $this->getLast();
     }
 
-    public function getAll() : array
+    public function getAll(int $position = 0, int $limit = 8): array
     {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
         return $this->db->fetchAll();
     }
 
-    public function find(string $key, string $value) : ?Ticket
+    public function search(string $event_name, int $position = 0, int $limit = 8): array
     {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE ' . $key . ' = :' . $key . ' AND deleted_at is null');
+        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE e.title LIKE :event_name AND t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
+        $this->db->bind('event_name', '%'.$event_name.'%');
+        return $this->db->fetchAll();
+    }
+
+    public function find(string $key, string $value): ?Ticket
+    {
+        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE ' . $key . ' = :' . $key . ' AND t.deleted_at is null');
         $this->db->bind($key, $value);
         $data = $this->db->fetch();
 
@@ -72,7 +79,7 @@ class TicketRepository
         return $ticket;
     }
 
-    public function update(Ticket $ticket) : Ticket
+    public function update(Ticket $ticket): Ticket
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET event_id = :event_id, price = :price, type = :type, description = :description WHERE id = :id');
 
@@ -86,7 +93,7 @@ class TicketRepository
         return $this->getLast();
     }
 
-    public function delete(int $id) : bool
+    public function delete(int $id): bool
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET deleted_at = :deleted_at WHERE id = :id');
 
