@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Core\Database;
 use App\Models\Ticket;
-use PDO;
 
 class TicketRepository
 {
