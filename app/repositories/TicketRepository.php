@@ -15,7 +15,7 @@ class TicketRepository
         $this->db = new Database;
     }
 
-    public function create(Ticket $ticket): Ticket
+    public function store(Ticket $ticket): Ticket
     {
         $this->db->query('INSERT INTO ' . self::db_name . '(event_id, price, type, description) VALUES (:event_id, :price, :type, :description)');
         $this->db->bind('event_id', $ticket->event_id);
@@ -27,20 +27,7 @@ class TicketRepository
         return $this->getLast();
     }
 
-    public function getAll(int $position = 0, int $limit = 8): array
-    {
-        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
-        return $this->db->fetchAll();
-    }
-
-    public function search(string $event_name, int $position = 0, int $limit = 8): array
-    {
-        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE e.title LIKE :event_name AND t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
-        $this->db->bind('event_name', '%'.$event_name.'%');
-        return $this->db->fetchAll();
-    }
-
-    public function find(string $key, string $value): ?Ticket
+    public function get(string $key, string $value): ?Ticket
     {
         $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE ' . $key . ' = :' . $key . ' AND t.deleted_at is null');
         $this->db->bind($key, $value);
@@ -60,6 +47,19 @@ class TicketRepository
         $ticket->deleted_at = $data['deleted_at'];
 
         return $ticket;
+    }
+
+    public function getAll(int $position = 0, int $limit = 8): array
+    {
+        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
+        return $this->db->fetchAll();
+    }
+
+    public function find(string $event_name, int $position = 0, int $limit = 8): array
+    {
+        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE e.title LIKE :event_name AND t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
+        $this->db->bind('event_name', '%'.$event_name.'%');
+        return $this->db->fetchAll();
     }
 
     public function getLast(): Ticket

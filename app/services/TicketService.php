@@ -33,7 +33,7 @@ class TicketService
         }
     }
 
-    public function createTicket(TicketRequest $request): TicketResponse
+    public function storeTicket(TicketRequest $request): TicketResponse
     {
         $this->validateTicketRequest($request);
 
