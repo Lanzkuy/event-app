@@ -37,7 +37,7 @@ class EventRepository
 
     public function get(string $key, string $value): ?Event
     {
-        $this->db->query('SELECT e.*, u.*, c.* FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE ' . $key . ' = :value AND e.deleted_at is null');
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.' . $key . ' = :value AND e.deleted_at is null');
         $this->db->bind('value', $value);
         $data = $this->db->fetch();
 
@@ -64,7 +64,7 @@ class EventRepository
 
     public function getAll(int $position, int $limit): array
     {
-        $this->db->query('SELECT e.*, u.*, c.* FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null ORDER BY e.id DESC LIMIT :position, :limit');
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null ORDER BY e.id LIMIT :position, :limit');
         $this->db->bind('position', $position);
         $this->db->bind('limit', $limit);
 
@@ -73,7 +73,7 @@ class EventRepository
 
     public function find(string $title, int $position, int $limit): array
     {
-        $this->db->query('SELECT e.*, u.*, c.* FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.title LIKE :title AND e.deleted_at is null ORDER BY e.id DESC LIMIT :position, :limit');
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.title LIKE :title AND e.deleted_at is null ORDER BY e.id LIMIT :position, :limit');
         $this->db->bind('title', '%' . $title . '%');
         $this->db->bind('position', $position);
         $this->db->bind('limit', $limit);
