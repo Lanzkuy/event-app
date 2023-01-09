@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\InputValidationException;
+use App\Exceptions\ServiceManagementException;
 use App\Models\EventStoreRequest;
 use App\Models\Event;
 use App\Repositories\EventRepository;
@@ -22,7 +23,7 @@ class EventService
             throw new InputValidationException('Image too large.');
         }
 
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             throw new InputValidationException('Image type not allowed.');
         }
 
@@ -89,20 +90,6 @@ class EventService
         }
     }
 
-    public function uploadImage(EventStoreRequest $request, int $time): void
-    {
-        $target_dir = "C:/laragon/www/event-app/public/assets/img/events/";
-        $target_file = $target_dir . basename($time . strtolower($request->image_name));
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-        $this->validateUploadImage($request, $imageFileType, $target_file);
-    }
-
-    public function getEvent(int $position, int $limit): array
-    {
-        return $this->eventRepository->getAll($position, $limit);
-    }
-
     public function storeEvent(EventStoreRequest $request): bool
     {
         $time = time();
@@ -120,22 +107,33 @@ class EventService
         $event->end_datetime = $request->end_datetime;
 
         $store = $this->eventRepository->store($event);
-    
-        if(is_null($store)){
-            return false;
+
+        if (is_null($store)) {
+            throw new ServiceManagementException('Failed to store event');
         }
 
-        return true;
+        return $store;
     }
 
-    public function editEvent(int $id): array
+    public function getEvent(int $id): ?Event
     {
-        $event = $this->eventRepository->get($id);
-        if(is_null($event)){
-            return false;
+        $event = $this->eventRepository->get('id', $id);
+
+        if (is_null($event)) {
+            throw new ServiceManagementException('Event not found');
         }
 
         return $event;
+    }
+
+    public function getEvents(int $position, int $limit): array
+    {
+        return $this->eventRepository->getAll($position, $limit);
+    }
+
+    public function findEvent(string $title, int $position, int $limit): array
+    {
+        return $this->eventRepository->find($title, $position, $limit);
     }
 
     public function updateEvent(EventStoreRequest $request): bool
@@ -143,14 +141,14 @@ class EventService
         $time = time();
 
         $this->validateEventUpdateRequest($request);
-        
-        if(empty(trim($request->image_name))){
+
+        if (empty(trim($request->image_name))) {
             $image = $request->image_current;
-        }else{
+        } else {
             $this->uploadImage($request, $time);
             $image = $time . $request->image_name;
         }
-        
+
         $event = new Event;
         $event->id = $request->id;
         $event->category_id = $request->category_id;
@@ -163,26 +161,31 @@ class EventService
 
         $update = $this->eventRepository->update($event);
 
-        if(is_null($store)){
-            return false;
+        if (is_null($update)) {
+            throw new ServiceManagementException('Failed to update event');
         }
 
-        return true;
+        return $update;
     }
 
     public function deleteEvent(int $id): bool
     {
         $delete = $this->eventRepository->delete($id);
-        if(is_null($delete)){
-            return false;
+
+        if (is_null($delete)) {
+            throw new ServiceManagementException('Failed to delete event');
         }
 
-        return true;
+        return $delete;
     }
 
-    public function findEvent(string $title, int $position, int $limit): array
+    public function uploadImage(EventStoreRequest $request, int $time): void
     {
-        return $this->eventRepository->find($title, $position, $limit);
+        $target_dir = BASE_URL . '/assets/img/events/';
+        $target_file = $target_dir . basename($time . strtolower($request->image_name));
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        $this->validateUploadImage($request, $imageFileType, $target_file);
     }
 
     public function paginateEvent(?string $title): int
