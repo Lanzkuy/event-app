@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-class TicketRequest
+class TicketStoreRequest
 {
-    public string $event_id;
+    public int $id;
+    public int $event_id;
     public float $price;
     public string $type;
     public string $description;

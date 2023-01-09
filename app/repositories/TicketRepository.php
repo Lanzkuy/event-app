@@ -15,22 +15,21 @@ class TicketRepository
         $this->db = new Database;
     }
 
-    public function store(Ticket $ticket): Ticket
+    public function store(Ticket $ticket): bool
     {
         $this->db->query('INSERT INTO ' . self::db_name . '(event_id, price, type, description) VALUES (:event_id, :price, :type, :description)');
         $this->db->bind('event_id', $ticket->event_id);
         $this->db->bind('price', $ticket->price);
         $this->db->bind('type', $ticket->type);
         $this->db->bind('description', $ticket->description);
-        $this->db->execute();
 
-        return $this->getLast();
+        return $this->db->execute();
     }
 
     public function get(string $key, string $value): ?Ticket
     {
-        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE ' . $key . ' = :' . $key . ' AND t.deleted_at is null');
-        $this->db->bind($key, $value);
+        $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.' . $key .  ' = :value AND t.deleted_at is null LIMIT 1');
+        $this->db->bind('value', $value);
         $data = $this->db->fetch();
 
         if ($data == false) {
@@ -51,52 +50,38 @@ class TicketRepository
 
     public function getAll(int $position = 0, int $limit = 8): array
     {
-        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
+        $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT :position, :limit');
+        $this->db->bind('position', $position);
+        $this->db->bind('limit', $limit);
+
         return $this->db->fetchAll();
     }
 
-    public function find(string $event_name, int $position = 0, int $limit = 8): array
+    public function find(string $event_title, int $position = 0, int $limit = 8): array
     {
-        $this->db->query('SELECT t.*, e.* FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE e.title LIKE :event_name AND t.deleted_at is null LIMIT ' . $position . ' , ' . $limit);
-        $this->db->bind('event_name', '%'.$event_name.'%');
+        $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE e.title LIKE :event_title AND t.deleted_at is null LIMIT :position, :limit');
+        $this->db->bind('event_title', '%'.$event_title.'%');
+        $this->db->bind('position', $position);
+        $this->db->bind('limit', $limit);
+        
         return $this->db->fetchAll();
     }
 
-    public function getLast(): Ticket
-    {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' ORDER BY id DESC LIMIT 1;');
-        $data = $this->db->fetch();
-
-        $ticket = new Ticket;
-        $ticket->id = $data['id'];
-        $ticket->event_id = $data['event_id'];
-        $ticket->price = $data['price'];
-        $ticket->type = $data['type'];
-        $ticket->description = $data['description'];
-        $ticket->created_at = $data['created_at'];
-        $ticket->deleted_at = $data['deleted_at'];
-
-        return $ticket;
-    }
-
-    public function update(Ticket $ticket): Ticket
+    public function update(Ticket $ticket): bool
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET event_id = :event_id, price = :price, type = :type, description = :description WHERE id = :id');
-
         $this->db->bind('id', $ticket->id);
         $this->db->bind('event_id', $ticket->event_id);
         $this->db->bind('price', $ticket->price);
         $this->db->bind('type', $ticket->type);
         $this->db->bind('description', $ticket->description);
-        $this->db->execute();
 
-        return $this->getLast();
+        return $this->db->execute();
     }
 
     public function delete(int $id): bool
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET deleted_at = :deleted_at WHERE id = :id');
-
         $this->db->bind('id', $id);
         $this->db->bind('deleted_at', date('y-m-d h:m:s', time()));
 
