@@ -9,7 +9,7 @@ abstract class Controller
         require_once '../app/views/' . $view . '.php';
     }
 
-    protected function service(string $name): object
+    protected function service(string $name)
     {
         require_once '../app/services/' . $name . 'Service.php';
         $service_namespace = 'App\\Services\\';
