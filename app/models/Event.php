@@ -13,7 +13,7 @@ class Event
     public string $location;
     public string $start_datetime;
     public string $end_datetime;
-    public string $status;
+    public ?string $status;
     public string $created_at;
-    public string $deleted_at;
+    public ?string $deleted_at;
 }
