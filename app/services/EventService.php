@@ -126,12 +126,12 @@ class EventService
         return $event;
     }
 
-    public function getEvents(int $position, int $limit): array
+    public function getEvents(int $position = 0, int $limit = 8): array
     {
         return $this->eventRepository->getAll($position, $limit);
     }
 
-    public function findEvent(string $title, int $position, int $limit): array
+    public function findEvent(string $title, int $position = 0, int $limit = 8): array
     {
         return $this->eventRepository->find($title, $position, $limit);
     }
