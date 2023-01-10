@@ -62,12 +62,12 @@ class TicketService
         return $event;
     }
 
-    public function getTickets(int $position, int $limit): array
+    public function getTickets(int $position = 0, int $limit = 8): array
     {
         return $this->ticketRepository->getAll($position, $limit);
     }
 
-    public function findTicket(string $event_title, int $position, int $limit): array
+    public function findTicket(string $event_title, int $position = 0, int $limit = 8): array
     {
         return $this->ticketRepository->find($event_title, $position, $limit);
     }

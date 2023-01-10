@@ -48,7 +48,7 @@ class TicketRepository
         return $ticket;
     }
 
-    public function getAll(int $position = 0, int $limit = 8): array
+    public function getAll(int $position, int $limit): array
     {
         $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT :position, :limit');
         $this->db->bind('position', $position);
@@ -57,7 +57,7 @@ class TicketRepository
         return $this->db->fetchAll();
     }
 
-    public function find(string $event_title, int $position = 0, int $limit = 8): array
+    public function find(string $event_title, int $position, int $limit): array
     {
         $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE e.title LIKE :event_title AND t.deleted_at is null LIMIT :position, :limit');
         $this->db->bind('event_title', '%'.$event_title.'%');
