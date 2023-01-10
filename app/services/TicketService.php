@@ -24,6 +24,14 @@ class TicketService
         }
 
         if (empty(trim($request->type))) {
+            throw new InputValidationException('Price must be filled');
+        }
+
+        if (empty(trim($request->type))) {
+            throw new InputValidationException('Stock must be filled');
+        }
+
+        if (empty(trim($request->type))) {
             throw new InputValidationException('Event type must be filled');
         }
 
@@ -39,6 +47,7 @@ class TicketService
         $ticket = new Ticket;
         $ticket->event_id = $request->event_id;
         $ticket->price = $request->price;
+        $ticket->stock = $request->stock;
         $ticket->type = $request->type;
         $ticket->description = $request->description;
 
@@ -80,6 +89,7 @@ class TicketService
         $ticket->id = $request->id;
         $ticket->event_id = $request->event_id;
         $ticket->price = $request->price;
+        $ticket->stock = $request->stock;
         $ticket->type = $request->type;
         $ticket->description = $request->description;
 
