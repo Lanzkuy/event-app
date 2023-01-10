@@ -17,9 +17,10 @@ class TicketRepository
 
     public function store(Ticket $ticket): bool
     {
-        $this->db->query('INSERT INTO ' . self::db_name . '(event_id, price, type, description) VALUES (:event_id, :price, :type, :description)');
+        $this->db->query('INSERT INTO ' . self::db_name . '(event_id, price, type, description) VALUES (:event_id, :price, :stock, :type, :description)');
         $this->db->bind('event_id', $ticket->event_id);
         $this->db->bind('price', $ticket->price);
+        $this->db->bind('stock', $ticket->stock);
         $this->db->bind('type', $ticket->type);
         $this->db->bind('description', $ticket->description);
 
@@ -40,6 +41,7 @@ class TicketRepository
         $ticket->id = $data['id'];
         $ticket->event_id = $data['event_id'];
         $ticket->price = $data['price'];
+        $ticket->stock = $data['stock'];
         $ticket->type = $data['type'];
         $ticket->description = $data['description'];
         $ticket->created_at = $data['created_at'];
@@ -69,10 +71,11 @@ class TicketRepository
 
     public function update(Ticket $ticket): bool
     {
-        $this->db->query('UPDATE ' . self::db_name . ' SET event_id = :event_id, price = :price, type = :type, description = :description WHERE id = :id');
+        $this->db->query('UPDATE ' . self::db_name . ' SET event_id = :event_id, price = :price, stock = :stock, type = :type, description = :description WHERE id = :id');
         $this->db->bind('id', $ticket->id);
         $this->db->bind('event_id', $ticket->event_id);
         $this->db->bind('price', $ticket->price);
+        $this->db->bind('stock', $ticket->stock);
         $this->db->bind('type', $ticket->type);
         $this->db->bind('description', $ticket->description);
 
