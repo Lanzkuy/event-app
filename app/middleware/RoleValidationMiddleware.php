@@ -10,10 +10,10 @@ class RoleValidationMiddleware implements Middleware
             $role = $_SESSION['user_session']['role'];
 
             if ($role == "admin") {
-                header('Location: ' . BASE_URL . '/adminhome');
+                header('Location: ' . BASE_URL . '/dashboard/admin');
                 exit();
             } else {
-                header('Location: ' . BASE_URL . '/home');
+                header('Location: ' . BASE_URL . '/dashboard');
                 exit();
             }
         }

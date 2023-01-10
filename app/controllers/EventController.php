@@ -53,10 +53,10 @@ class EventController extends Controller
         $data['numberOfPages'] = $numberOfPages;
         $data['page'] = $page;
         $data['search'] = $search;
-        $data['title'] = 'List Event';
+        $data['title'] = 'Event';
 
         $this->view('templates/header', $data);
-        $this->view('user/event/index', $data);
+        $this->view('admin/events/index', $data);
         $this->view('templates/footer');
     }
 

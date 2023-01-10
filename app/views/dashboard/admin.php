@@ -4,13 +4,13 @@
             <div class="sidebar-header position-relative">
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="logo ">
-                        <a href="./adminhome">
+                        <a href="<?= BASE_URL ?>/dashboard/admin">
                             <h3 class="text-primary">Event App</h3>
                         </a>
                     </div>
                     <div class="me-0" id="toggle-dark"></div>
                     <div class="sidebar-toggler  x">
-                        <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        <a href="#" class="sidebar-hide d-x l-none d-block"><i class="bi bi-x bi-middle"></i></a>
                     </div>
                 </div>
             </div>
@@ -18,46 +18,46 @@
                 <ul class="menu">
                     <li class="sidebar-title">Menu</li>
                     <li class="sidebar-item active">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/admin" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/admin/user/change-password" class='sidebar-link'>
                             <i class="bi bi-lock"></i>
                             <span>Change Password</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/logout" class='sidebar-link'>
                             <i class="bi bi-box-arrow-left"></i>
                             <span>Logout</span>
                         </a>
                     </li>
                     <li class="sidebar-title">Data Management</li>
                     <li class="sidebar-item">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/admin/user" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>Users</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/admin/event" class='sidebar-link'>
                             <i class="bi bi-calendar-event-fill"></i>
-                            <span>Event</span>
+                            <span>Events</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/admin/ticket" class='sidebar-link'>
                             <i class="bi bi-ticket-fill"></i>
-                            <span>Ticket</span>
+                            <span>Tickets</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="./adminhome" class='sidebar-link'>
+                        <a href="<?= BASE_URL ?>/dashboard/admin/order" class='sidebar-link'>
                             <i class="bi bi-receipt"></i>
-                            <span>Order</span>
+                            <span>Orders</span>
                         </a>
                     </li>
                 </ul>

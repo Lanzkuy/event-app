@@ -1,4 +1,4 @@
-<form action="./register/auth" method="post">
+<form action="<?= BASE_URL ?>/register/auth" method="post">
     <input type="text" placeholder="Email" name="email"><br>
     <input type="text" placeholder="Name" name="name"><br>
     <input type="password" placeholder="Password" name="password"><br>

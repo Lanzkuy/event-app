@@ -1,5 +1,5 @@
 user home<br>
 <a href="./event">list events</a><br>
-<form action="./home/logout" method="post">
+<form action="<?= BASE_URL ?>/dashboard/logout" method="post">
     <input type="submit" value="Logout">
 </form>
