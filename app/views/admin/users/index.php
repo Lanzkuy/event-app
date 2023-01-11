@@ -89,7 +89,70 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="card">
+                <div class="d-flex justify-content-between">
+                    <div class="card-header">User Data</div>
+                    <button class="btn btn-primary m-4 px-4" data-bs-toggle="modal" data-bs-target="#userModal">Add</button>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover" id="adminTable">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>user@gmail.com</td>
+                                <td>User</td>
+                                <td>User</td>
+                                <td>
+                                    <a href="#">
+                                        <i class="badge-circle font-medium-1" data-feather="edit"></i>
+                                    </a>
+                                    <a href="#" onClick="javascript: return confirm('Are you sure want to delete ?');">
+                                        <i class="badge-circle font-medium-1" data-feather="trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalTitle">Add User</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Croissant jelly-o halvah chocolate sesame snaps. Brownie caramels candy
+                    canes chocolate cake
+                    marshmallow icing lollipop I love. Gummies macaroon donut caramels
+                    biscuit topping danish.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Close</span>
+                </button>
+                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Submit</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
