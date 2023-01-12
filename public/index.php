@@ -3,6 +3,6 @@ require_once '../app/autoload.php';
 
 use App\Core\Application;
 
-session_start();
+if (!session_id()) session_start();
 
 $app = new Application;

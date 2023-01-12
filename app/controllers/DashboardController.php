@@ -19,13 +19,13 @@ class DashboardController extends Controller
         $this->orderController = new OrderController;
     }
 
-    public function index()
+    public function index(string $param1 = 'index', string $param2 = 'index', string $param3 = '')
     {
         if (isset($_SESSION['user_session'])) {
             $role = $_SESSION['user_session']['role'];
             if ($role != "user") {
                 header('Location: ' . BASE_URL . '/dashboard/admin');
-                exit();
+                return;
             }
         }
 
@@ -35,13 +35,13 @@ class DashboardController extends Controller
         $this->view('templates/footer');
     }
 
-    public function admin(string $param1 = 'index', string $param2 = '')
+    public function admin(string $param1 = 'index', string $param2 = 'index', string $param3 = '')
     {
         if (isset($_SESSION['user_session'])) {
             $role = $_SESSION['user_session']['role'];
             if ($role != "admin") {
                 header('Location: ' . BASE_URL . '/dashboard');
-                exit();
+                return;
             }
         }
 
@@ -58,7 +58,26 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'user') {
-            $this->userController->index();
+            if($param2 == 'index') {
+                $this->userController->index();
+            }
+
+            if($param2 == 'create') {
+                $this->userController->create();
+            }
+
+            if($param2 == 'edit') {
+                $this->userController->edit($param3);
+            }
+
+            if($param2 == 'update') {
+                $this->userController->update($param3);
+            }
+
+            if($param2 == 'delete') {
+                $this->userController->delete($param3);
+            }
+
             return;
         }
 
@@ -82,6 +101,6 @@ class DashboardController extends Controller
     {
         $_SESSION['user_session'] = null;
         header("Location: ./");
-        exit();
+        return;
     }
 }

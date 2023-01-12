@@ -47,12 +47,19 @@ class UserRepository
         return $user;
     }
 
-    public function getAll(int $position, int $limit): array
+    /*public function getAll(int $position, int $limit): array
     {
         $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null LIMIT :position, :limit');
         $this->db->bind('position', $position);
         $this->db->bind('limit', $limit);
 
+        return $this->db->fetchAll();
+    }*/
+
+    public function getAll(): array
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null ORDER BY role');
+        
         return $this->db->fetchAll();
     }
 
@@ -68,10 +75,9 @@ class UserRepository
 
     public function update(User $user): bool
     {
-        $this->db->query('UPDATE ' . self::db_name . ' SET email = :email, password = :password, name = :name, role = :role WHERE id = :id');
+        $this->db->query('UPDATE ' . self::db_name . ' SET email = :email, name = :name, role = :role WHERE id = :id');
         $this->db->bind('id', $user->id);
         $this->db->bind('email', $user->email);
-        $this->db->bind('password', $user->password);
         $this->db->bind('name', $user->name);
         $this->db->bind('role', $user->role);
 

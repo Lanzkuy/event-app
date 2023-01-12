@@ -90,7 +90,24 @@
             </div>
         </div>
         <div class="page-content">
-
+            <form method="POST" action="change-password">
+                <label>Old Password </label>
+                <div class="form-group">
+                    <input type="password" name="old_password" class="form-control">
+                </div>
+                <label>New Password </label>
+                <div class="form-group">
+                    <input type="password" name="new_password" class="form-control">
+                </div>
+                <label>Confirm Password </label>
+                <div class="form-group">
+                    <input type="password" name="confirm_password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">
+                    <i class="bx bx-check d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Submit</span>
+                </button>
+            </form>
         </div>
     </div>
 </div>

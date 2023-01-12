@@ -89,12 +89,17 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php Flasher::flash(); ?>
+                </div>
+            </div>
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <div class="card-header">User Data</div>
-                    <button class="btn btn-primary m-4 px-4" data-bs-toggle="modal" data-bs-target="#userModal">Add</button>
+                    <div class="card-header align-self-center">User Data</div>
+                    <button class="btn btn-primary m-4 px-4" onclick="openModal(0, 'User')" data-bs-toggle="modal" data-bs-target="#userModal">Add</button>
                 </div>
-                <div class="card-body">
+                <div class="card-body pt-2">
                     <table class="table table-hover" id="adminTable">
                         <thead>
                             <tr>
@@ -105,19 +110,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>user@gmail.com</td>
-                                <td>User</td>
-                                <td>User</td>
-                                <td>
-                                    <a href="#">
-                                        <i class="badge-circle font-medium-1" data-feather="edit"></i>
-                                    </a>
-                                    <a href="#" onClick="javascript: return confirm('Are you sure want to delete ?');">
-                                        <i class="badge-circle font-medium-1" data-feather="trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <?php foreach ($data['userData'] as $user) { ?>
+                                <tr>
+                                    <td><?= $user['email']; ?></td>
+                                    <td><?= $user['name']; ?></td>
+                                    <td><?= $user['role']; ?></td>
+                                    <td>
+                                        <i class="badge-circle font-medium-1" data-feather="edit" onclick="openModal(<?= $user['id']; ?>, 'User')" data-bs-toggle="modal" data-bs-target="#userModal"></i>
+                                        <a href="<?= BASE_URL ?>/dashboard/admin/user/delete/<?= $user['id']; ?>" onClick="javascript: return confirm('Are you sure want to delete ?');">
+                                            <i class="badge-circle font-medium-1" data-feather="trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -130,29 +135,47 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userModalTitle">Add User</h5>
+                <h5 class="modal-title" id="userModalTitle">Modal</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i data-feather="x"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <p>
-                    Croissant jelly-o halvah chocolate sesame snaps. Brownie caramels candy
-                    canes chocolate cake
-                    marshmallow icing lollipop I love. Gummies macaroon donut caramels
-                    biscuit topping danish.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Submit</span>
-                </button>
-            </div>
+            <form method="POST">
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">  
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal" onClick="javascript: return confirm('Are you sure to submit ?');">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Submit</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    function openModal(id, page) {
+        if (id === 0) {
+            $('.modal-title').html('Add ' + page)
+            let url = '<?= BASE_URL ?>/dashboard/admin/' + page.toLowerCase() + '/create';
+
+            $.post(url, function(data, success) {
+                $('form').get(0).setAttribute('action', page.toLowerCase() + '/create');
+                $('.modal-body').html(data);
+            })
+        } else {
+            $('.modal-title').html('Edit ' + page)
+            let url = '<?= BASE_URL ?>/dashboard/admin/' + page.toLowerCase() + '/edit/' + id;
+
+            $.post(url, function(data, success) {
+                $('form').get(0).setAttribute('action', page.toLowerCase() + '/update/' + id);
+                $('.modal-body').html(data);
+            })
+        }
+    }
+</script>

@@ -3,22 +3,135 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Models\UserRegisterRequest;
+use App\Services\UserService;
+use Exception;
+use Flasher;
 
 class UserController extends Controller
 {
+    private UserService $userService;
+
+    public function __construct()
+    {
+        $this->userService = $this->service('User');
+    }
+
     public function index()
     {
         $data['title'] = 'User';
+        $data['userData'] = $this->userService->getUsers();
         $this->view('templates/header', $data);
         $this->view('admin/users/index', $data);
         $this->view('templates/footer');
     }
 
+    public function create()
+    {
+        if (isset($_POST['email'])) {
+            try {
+                $userRegisterRequest = new UserRegisterRequest;
+                $userRegisterRequest->email = $_POST['email'];
+                $userRegisterRequest->password = $_POST['password'];
+                $userRegisterRequest->confirm_password = $_POST['confirm_password'];
+                $userRegisterRequest->name = $_POST['name'];
+                $userRegisterRequest->role = $_POST['role'];
+
+                $status = $this->userService->register($userRegisterRequest);
+
+                if ($status) {
+                    Flasher::setFlash('Create user success', 'success');
+                } else {
+                    Flasher::setFlash('Create user failed', 'danger');
+                }
+            } catch (Exception $ex) {
+                Flasher::setFlash($ex->getMessage(), 'danger');
+            }
+
+            $this->back();
+        }
+
+        $this->view('admin/users/create');
+    }
+
+    public function edit(int $id)
+    {
+        $data['editData'] = $this->userService->getUser($id);
+        $this->view('admin/users/edit', $data);
+    }
+
+    public function update(int $id)
+    {
+        if (isset($_POST['email'])) {
+            try {
+                $userRegisterRequest = new UserRegisterRequest;
+                $userRegisterRequest->id = $id;
+                $userRegisterRequest->email = $_POST['email'];
+                $userRegisterRequest->name = $_POST['name'];
+                $userRegisterRequest->role = $_POST['role'];
+
+                $status = $this->userService->updateUser($userRegisterRequest);
+
+                if ($status) {
+                    Flasher::setFlash('Update user success', 'success');
+                } else {
+                    Flasher::setFlash('Update user failed', 'danger');
+                }
+            } catch (Exception $ex) {
+                Flasher::setFlash($ex->getMessage(), 'danger');
+            }
+
+            $this->back();
+        }
+    }
+
+    public function delete(int $id)
+    {
+        try {
+            $status = $this->userService->deleteUser($id);
+
+            if ($status) {
+                Flasher::setFlash('Delete user success', 'success');
+            } else {
+                Flasher::setFlash('Delete user failed', 'danger');
+            }
+        } catch (Exception $ex) {
+            Flasher::setFlash($ex->getMessage(), 'danger');
+        }
+
+        $this->back();
+    }
+
     public function changePassword()
     {
+        if (isset($_POST['old_password'])) {
+            try {
+                $status = $this->userService->changePassword($_POST['old_password'], $_POST['new_password'], $_POST['confirm_password']);
+                var_dump($status);
+                if ($status) {
+                    Flasher::setFlash('Change password success', 'success');
+                } else {
+                    Flasher::setFlash('Change password failed', 'danger');
+                }
+            } catch (Exception $ex) {
+                Flasher::setFlash($ex->getMessage(), 'danger');
+            }
+
+            echo "<script>location.href = '" . BASE_URL . "/dashboard/logout';</script>";
+
+            return;
+        }
+
         $data['title'] = 'Change Password';
         $this->view('templates/header', $data);
         $this->view('admin/users/change-password', $data);
         $this->view('templates/footer');
+    }
+
+    private function back()
+    {
+        echo "<script>location.href = '" . BASE_URL . "/dashboard/admin/user';</script>";
+
+        return;
     }
 }

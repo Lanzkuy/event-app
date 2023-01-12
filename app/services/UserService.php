@@ -100,21 +100,33 @@ class UserService
         }
     }
 
-    public function validateChangePasswordRequest(string $password, string $confirm_password) : void
+    public function validateChangePasswordRequest(string $old_password, string $new_password, string $confirm_password) : void
     {
-        if (empty(trim($password))) {
-            throw new InputValidationException('Password must be filled');
+        if (empty(trim($old_password))) {
+            throw new InputValidationException('Old password must be filled');
         }
 
-        if (strlen($password) < 8) {
-            throw new InputValidationException('Password is too short, minimum is 8 characters');
+        if (empty(trim($new_password))) {
+            throw new InputValidationException('New password must be filled');
         }
 
-        if (strlen($password) > 50) {
-            throw new InputValidationException('Password is too long, maximum is 50 characters');
+        if (empty(trim($confirm_password))) {
+            throw new InputValidationException('Confirm password must be filled');
         }
 
-        if ($confirm_password != $password) {
+        if ($new_password == $old_password) {
+            throw new InputValidationException('New password cannot be same with old password');
+        }
+
+        if (strlen($new_password) < 8) {
+            throw new InputValidationException('New password is too short, minimum is 8 characters');
+        }
+
+        if (strlen($new_password) > 50) {
+            throw new InputValidationException('New password is too long, maximum is 50 characters');
+        }
+
+        if ($confirm_password != $new_password) {
             throw new InputValidationException('Confirm password must be same as password');
         }
     }
@@ -166,13 +178,7 @@ class UserService
         $get_user = $this->userRepository->get('email', $request->email);
 
         $response = new UserRegisterResponse;
-        $response->user->id = $get_user->id;
-        $response->user->email = $get_user->email;
-        $response->user->password = $get_user->password;
-        $response->user->name = $get_user->name;
-        $response->user->role = $get_user->role;
-        $response->user->created_at = $get_user->created_at;
-        $response->user->deleted_at = $get_user->deleted_at;
+        $response->user = $get_user;
 
         return $response;
     }
@@ -188,9 +194,14 @@ class UserService
         return $event;
     }
 
-    public function getUsers(int $position = 0, int $limit = 8): array
+    /*public function getUsers(int $position = 0, int $limit = 8): array
     {
         return $this->userRepository->getAll($position, $limit);
+    }*/
+
+    public function getUsers(): array
+    {
+        return $this->userRepository->getAll();
     }
 
     public function findUser(string $email, int $position = 0, int $limit = 8): array
@@ -200,11 +211,13 @@ class UserService
 
     public function updateUser(UserRegisterRequest $request) : bool
     {
-        $this->validateUserRegisterRequest($request);
+        $this->validateUserUpdateRequest($request);
 
         $user = new User;
+        $user->id = $request->id;
         $user->email = $request->email;
         $user->name = $request->name;
+        $user->role = $request->role;
 
         $update = $this->userRepository->update($user);
 
@@ -226,9 +239,9 @@ class UserService
         return $delete;
     }
 
-    public function changePassword(string $password, string $confirm_password) : bool
+    public function changePassword(string $old_password, string $new_password, string $confirm_password) : bool
     {
-        $this->validateChangePasswordRequest($password, $confirm_password);
+        $this->validateChangePasswordRequest($old_password, $new_password, $confirm_password);
 
         $user = new User;
         $user->password = $confirm_password;
