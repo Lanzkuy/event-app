@@ -12,7 +12,7 @@
     <?= $data['categoryName'][$key]['name'] ?><br>
     <?= $event['title'] ?><br>
     <?= $event['description'] ?><br>
-    <img src="./assets/img/events/<?=$event['image']?>" width="100" height="100"><br>
+    <img src="./assets/images/events/<?=$event['image']?>" width="100" height="100"><br>
     <?= $event['location'] ?><br>
     <?= $event['start_datetime'] ?><br>
     <?= $event['end_datetime'] ?><br>
