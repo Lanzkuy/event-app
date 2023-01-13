@@ -1,2 +1,2 @@
-# event-app uas project
+# event-app
  
