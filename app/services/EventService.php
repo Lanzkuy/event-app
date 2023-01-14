@@ -90,6 +90,16 @@ class EventService
         }
     }
 
+    public function getAllEvent(int $position = 0, int $limit = 5): array
+    {
+        return $this->eventRepository->getAllEvent($position, $limit);
+    }
+
+    public function findAllEvent(string $title, int $position = 0, int $limit = 5):array
+    {
+        return $this->eventRepository->findAllEvent($title, $position, $limit);
+    }
+
     public function storeEvent(EventStoreRequest $request): bool
     {
         $time = time();
@@ -101,7 +111,7 @@ class EventService
         $event->category_id = $request->category_id;
         $event->title = $request->title;
         $event->description = $request->description;
-        $event->image = $time . strtolower($request->image_name);
+        $event->image = $time . strtolower(trim($request->image_name));
         $event->location = $request->location;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
@@ -115,7 +125,7 @@ class EventService
         return $store;
     }
 
-    public function getEvent(int $id): ?Event
+    public function getEvent(int $id): array
     {
         $event = $this->eventRepository->get('id', $id);
 
@@ -126,14 +136,19 @@ class EventService
         return $event;
     }
 
-    public function getEvents(int $position = 0, int $limit = 8): array
+    public function getEvents(int $position = 0, int $limit = 5): array
     {
         return $this->eventRepository->getAll($position, $limit);
     }
 
-    public function findEvent(string $title, int $position = 0, int $limit = 8): array
+    public function findEvent(string $title, int $position = 0, int $limit = 5): array
     {
         return $this->eventRepository->find($title, $position, $limit);
+    }
+
+    public function getRowEvent()
+    {
+        return $this->eventRepository->getRow();
     }
 
     public function updateEvent(EventStoreRequest $request): bool
@@ -142,7 +157,7 @@ class EventService
 
         $this->validateEventUpdateRequest($request);
 
-        if (empty(trim($request->image_name))) {
+        if (empty($request->image_name)) {
             $image = $request->image_current;
         } else {
             $this->uploadImage($request, $time);
@@ -154,7 +169,7 @@ class EventService
         $event->category_id = $request->category_id;
         $event->title = $request->title;
         $event->description = $request->description;
-        $event->image = strtolower($image);
+        $event->image = strtolower(trim($image));
         $event->location = $request->location;
         $event->start_datetime = $request->start_datetime;
         $event->end_datetime = $request->end_datetime;
@@ -181,7 +196,7 @@ class EventService
 
     public function uploadImage(EventStoreRequest $request, int $time): void
     {
-        $target_dir = DOCUMENT_ROOT . '/assets/images/events/';
+        $target_dir = DOCUMENT_ROOT . '/assets/img/events/';
         $target_file = $target_dir . basename($time . strtolower($request->image_name));
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
