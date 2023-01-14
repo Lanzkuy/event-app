@@ -38,18 +38,10 @@ class EventController extends Controller
             $events = $this->eventService->getEvents($position, $limit);
         }
 
-        $categoryName = array();
-
-        foreach($events as $event)
-        {
-            $categoryName[] = $this->categoryService->getCategory($event['category_id']);
-        }
-
         $row = $this->eventService->paginateEvent($search);
         $numberOfPages = ceil($row / $limit);
         
         $data['events'] = $events;
-        $data['categoryName'] = $categoryName;
         $data['numberOfPages'] = $numberOfPages;
         $data['page'] = $page;
         $data['search'] = $search;
@@ -100,10 +92,7 @@ class EventController extends Controller
             $id = $_GET['id'];
             $event = $this->eventService->getEvent($id);
             $categories = $this->categoryService->getAllCategory();
-            $category = $this->categoryService->getCategory($event->category_id);
-
             $data['categories'] = $categories;
-            $data['category'] = $category;
             $data['event'] = $event;
             $data['title'] = 'Edit Event';
 
