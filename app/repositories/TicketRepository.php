@@ -50,6 +50,14 @@ class TicketRepository
         return $ticket;
     }
 
+    public function getByEventId(int $event_id): array
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE event_id = :event_id');        
+        $this->db->bind('event_id', $event_id);
+        return $this->db->fetchAll();
+    }
+
+
     public function getAll(int $position, int $limit): array
     {
         $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT :position, :limit');
@@ -78,6 +86,15 @@ class TicketRepository
         $this->db->bind('stock', $ticket->stock);
         $this->db->bind('type', $ticket->type);
         $this->db->bind('description', $ticket->description);
+
+        return $this->db->execute();
+    }
+
+    public function updateQty(int $id, int $qty)
+    {
+        $this->db->query('UPDATE ' . self::db_name . ' SET stock = stock - :qty WHERE id = :id');
+        $this->db->bind('qty', $qty);
+        $this->db->bind('id', $id);
 
         return $this->db->execute();
     }
