@@ -12,6 +12,7 @@
     <input type="text" name="location" placeholder="location"><br>
     <input type="datetime-local" name="start_datetime" placeholder="start_datetime"><br>
     <input type="datetime-local" name="end_datetime" placeholder="end_datetime"><br>
+
     <input type="submit" value="Create">
 </form>
 <a href="../event">back</a>
