@@ -147,17 +147,21 @@ class UserService
             throw new AuthenticationException('Email or password was wrong');
         }
 
-        if ($request->password != $user->password) {
+        if (password_verify($request->password, $user->password)) {
+
+            $response = new UserLoginResponse;
+            $response->id = $user->id;
+            $response->email = $user->email;
+            $response->name = $user->name;
+            $response->role = $user->role;
+    
+            return $response;
+
+        }else{
             throw new AuthenticationException('Email or password was wrong');
         }
 
-        $response = new UserLoginResponse;
-        $response->id = $user->id;
-        $response->email = $user->email;
-        $response->name = $user->name;
-        $response->role = $user->role;
-
-        return $response;
+      
     }
 
     public function register(UserRegisterRequest $request): UserRegisterResponse
@@ -172,7 +176,7 @@ class UserService
 
         $user = new User;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = password_hash($request->password, PASSWORD_BCRYPT);
         $user->name = $request->name;
 
         $register = $this->userRepository->store($user);

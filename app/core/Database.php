@@ -63,6 +63,11 @@ class Database
         return $this->statement->execute();
     }
 
+    public function lastInsertId(): int
+    {
+        return $this->handler->lastInsertId();
+    }
+
     public function fetch(): mixed
     {
         $this->execute();

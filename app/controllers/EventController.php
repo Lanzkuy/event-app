@@ -4,8 +4,9 @@ namespace App\Controllers;
 
 use Exception;
 use App\Core\Controller;
-use App\Models\EventStoreRequest;
 use App\Services\EventService;
+use App\Services\TicketService;
+use App\Models\EventStoreRequest;
 use App\Services\CategoryService;
 use App\Services\UserService;
 use Flasher;
@@ -80,7 +81,7 @@ class EventController extends Controller
         }
     }
 
-    public function update()
+    public function updateEvent()
     {
         if (isset($_POST['id'])) {
             try {

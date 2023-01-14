@@ -17,7 +17,7 @@ class EventRepository
         $this->user_id = $_SESSION['user_session']['id'];
     }
 
-    public function store(Event $event): bool
+    public function store(Event $event)
     {
         $this->db->query('INSERT INTO ' . self::db_name . '(user_id, category_id, title, description, image, location, start_datetime, end_datetime, status, created_at, deleted_at) VALUES (:user_id, :category_id, :title, :description, :image, :location, :start_datetime, :end_datetime, :status, :created_at, :deleted_at)');
         $this->db->bind('user_id', $this->user_id);
@@ -32,7 +32,9 @@ class EventRepository
         $this->db->bind('created_at', date('Y-m-d H:i:s'));
         $this->db->bind('deleted_at', null);
 
-        return $this->db->execute();
+        $this->db->execute();
+
+        return $this->db->lastInsertId();
     }
 
     public function get(string $key, string $value): ?Event
@@ -64,7 +66,8 @@ class EventRepository
 
     /*public function getAll(int $position, int $limit): array
     {
-        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null ORDER BY e.id LIMIT :position, :limit');
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null AND user_id = :user_id ORDER BY e.id LIMIT :position, :limit');
+        $this->db->bind('user_id', $this->user_id);
         $this->db->bind('position', $position);
         $this->db->bind('limit', $limit);
 
@@ -86,6 +89,36 @@ class EventRepository
         $this->db->bind('limit', $limit);
 
         return $this->db->fetchAll();
+    }
+    
+    //buat nampilin ke semua user
+    public function getAllEvent(int $position, int $limit): array
+    {
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null AND e.user_id != :user_id ORDER BY e.id DESC LIMIT :position, :limit');
+        $this->db->bind('user_id', $this->user_id);
+        $this->db->bind('position', $position);
+        $this->db->bind('limit', $limit);
+
+        return $this->db->fetchAll();
+    }
+
+    public function findAllEvent(string $title, int $position, int $limit): array
+    {
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.title LIKE :title AND e.deleted_at is null AND e.user_id != :user_id ORDER BY e.id LIMIT :position, :limit');
+        $this->db->bind('title', '%' . $title . '%');
+        $this->db->bind('user_id', $this->user_id);
+        $this->db->bind('position', $position);
+        $this->db->bind('limit', $limit);
+
+        return $this->db->fetchAll();
+    }
+
+    public function getRow()
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE user_id = :user_id AND deleted_at is null');
+        $this->db->bind('user_id', $this->user_id);
+
+        return $this->db->rowCount();
     }
 
     public function paginate(?string $title): int
