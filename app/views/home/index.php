@@ -1,4 +1,4 @@
-user home<br>
+welcome, <?= $_SESSION['user_session']['name'] ?><br>
 
 <form action="./home/logout" method="post">
     <input type="submit" value="Logout">
@@ -31,7 +31,7 @@ user home<br>
     <hr>
 <?php } ?>
 
-<?php for ($i=1; $i <= $data['numberOfPages'] ; $i++) { 
+<?php for ($i=1; $i <= $data['numberOfPages']; $i++) { 
     if($i != $data['page']){
         if(isset($_GET['search'])){
             $search = $data['search'];
