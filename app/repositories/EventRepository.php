@@ -62,11 +62,18 @@ class EventRepository
         return $event;
     }
 
-    public function getAll(int $position, int $limit): array
+    /*public function getAll(int $position, int $limit): array
     {
         $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null ORDER BY e.id LIMIT :position, :limit');
         $this->db->bind('position', $position);
         $this->db->bind('limit', $limit);
+
+        return $this->db->fetchAll();
+    }*/
+
+    public function getAll(): array
+    {
+        $this->db->query('SELECT e.*, u.email as user_email, u.name as user_name, c.name as category_name FROM ' . self::db_name . ' e INNER JOIN user u ON e.user_id = u.id INNER JOIN category c ON e.category_id = c.id WHERE e.deleted_at is null ORDER BY e.id');
 
         return $this->db->fetchAll();
     }
@@ -97,8 +104,9 @@ class EventRepository
 
     public function update(Event $event): bool
     {
-        $this->db->query('UPDATE ' . self::db_name . ' SET category_id = :category_id, title = :title, description = :description, image = :image, location = :location, start_datetime = :start_datetime, end_datetime = :end_datetime WHERE id = :id');
+        $this->db->query('UPDATE ' . self::db_name . ' SET user_id = :user_id, category_id = :category_id, title = :title, description = :description, image = :image, location = :location, start_datetime = :start_datetime, end_datetime = :end_datetime WHERE id = :id');
         $this->db->bind('id', $event->id);
+        $this->db->bind('user_id', $event->user_id);
         $this->db->bind('category_id', $event->category_id);
         $this->db->bind('title', $event->title);
         $this->db->bind('description', $event->description);

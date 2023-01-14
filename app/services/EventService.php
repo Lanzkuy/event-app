@@ -34,6 +34,10 @@ class EventService
 
     public function validateEventStoreRequest(EventStoreRequest $request): void
     {
+        if ($request->user_id == 0) {
+            throw new InputValidationException('User must be selected.');
+        }
+
         if ($request->category_id == 0) {
             throw new InputValidationException('Category must be selected.');
         }
@@ -65,6 +69,10 @@ class EventService
 
     public function validateEventUpdateRequest(EventStoreRequest $request): void
     {
+        if ($request->user_id == 0) {
+            throw new InputValidationException('User must be selected.');
+        }
+
         if ($request->category_id == 0) {
             throw new InputValidationException('Category must be selected.');
         }
@@ -98,6 +106,7 @@ class EventService
         $this->uploadImage($request, $time);
 
         $event = new Event;
+        $event->user_id = $request->user_id;
         $event->category_id = $request->category_id;
         $event->title = $request->title;
         $event->description = $request->description;
@@ -126,9 +135,14 @@ class EventService
         return $event;
     }
 
-    public function getEvents(int $position = 0, int $limit = 8): array
+    /*public function getEvents(int $position = 0, int $limit = 8): array
     {
         return $this->eventRepository->getAll($position, $limit);
+    }*/
+    
+    public function getEvents(): array
+    {
+        return $this->eventRepository->getAll();
     }
 
     public function findEvent(string $title, int $position = 0, int $limit = 8): array
@@ -151,6 +165,7 @@ class EventService
 
         $event = new Event;
         $event->id = $request->id;
+        $event->user_id = $request->user_id;
         $event->category_id = $request->category_id;
         $event->title = $request->title;
         $event->description = $request->description;

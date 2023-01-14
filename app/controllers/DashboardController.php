@@ -62,8 +62,8 @@ class DashboardController extends Controller
                 $this->userController->index();
             }
 
-            if($param2 == 'create') {
-                $this->userController->create();
+            if($param2 == 'store') {
+                $this->userController->store();
             }
 
             if($param2 == 'edit') {
@@ -82,7 +82,26 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'event') {
-            $this->eventController->index();
+            if($param2 == 'index') {
+                $this->eventController->index();
+            }
+
+            if($param2 == 'store') {
+                $this->eventController->store();
+            }
+
+            if($param2 == 'edit') {
+                $this->eventController->edit($param3);
+            }
+
+            if($param2 == 'update') {
+                $this->eventController->update($param3);
+            }
+
+            if($param2 == 'delete') {
+                $this->eventController->delete($param3);
+            }
+
             return;
         }
 

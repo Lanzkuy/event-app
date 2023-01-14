@@ -7,150 +7,133 @@ use App\Core\Controller;
 use App\Models\EventStoreRequest;
 use App\Services\EventService;
 use App\Services\CategoryService;
+use App\Services\UserService;
+use Flasher;
 
 class EventController extends Controller
 {
     private EventService $eventService;
     private CategoryService $categoryService;
+    private UserService $userService;
 
     public function __construct()
     {
         $this->eventService = $this->service('Event');
         $this->categoryService = $this->service('Category');
+        $this->userService = $this->service('User');
     }
 
     public function index()
     {
-        $limit = 5;
-        $page = $_GET['page'] ?? null;
-        $search = $_GET['search'] ?? null;
-    
-        if(empty($page)){
-            $position = 0; 
-            $page = 1;
-        }else{
-            $position = ($page-1) * $limit;
-        }
-
-        if($search){
-            $events = $this->eventService->findEvent($search, $position, $limit);
-        }else{
-            $events = $this->eventService->getEvents($position, $limit);
-        }
-
-        $categoryName = array();
-
-        foreach($events as $event)
-        {
-            $categoryName[] = $this->categoryService->getCategory($event['category_id']);
-        }
-
-        $row = $this->eventService->paginateEvent($search);
-        $numberOfPages = ceil($row / $limit);
-        
-        $data['events'] = $events;
-        $data['categoryName'] = $categoryName;
-        $data['numberOfPages'] = $numberOfPages;
-        $data['page'] = $page;
-        $data['search'] = $search;
         $data['title'] = 'Event';
-
+        $data['eventData'] = $this->eventService->getEvents();
         $this->view('templates/header', $data);
         $this->view('admin/events/index', $data);
         $this->view('templates/footer');
     }
 
-    public function create()
-    {
-        $categories = $this->categoryService->getAllCategory();
-
-        $data['categories'] = $categories;
-        $data['title'] = 'Create Event';
-
-        $this->view('templates/header', $data);
-        $this->view('user/event/create', $data);
-        $this->view('templates/footer');
-    }
-
     public function store()
     {
-        try {
-            $eventStoreRequest = new EventStoreRequest;
-            $eventStoreRequest->category_id = $_POST['category_id'];
-            $eventStoreRequest->title = $_POST['title'];
-            $eventStoreRequest->description = $_POST['description'];
-            $eventStoreRequest->image_name = $_FILES['image']['name'];
-            $eventStoreRequest->image_tmp = $_FILES['image']['tmp_name'];
-            $eventStoreRequest->image_size = $_FILES['image']['size'];
-            $eventStoreRequest->location = $_POST['location'];
-            $eventStoreRequest->start_datetime = $_POST['start_datetime'];
-            $eventStoreRequest->end_datetime = $_POST['end_datetime'];
+        $data['categoryData'] = $this->categoryService->getAllCategory();
+        $data['userData'] = $this->userService->getUsers();
 
-            $this->eventService->storeEvent($eventStoreRequest);
-            header('Location: ' . BASE_URL . '/event');
+        if (isset($_POST['title'])) {
+            try {
+                $eventStoreRequest = new EventStoreRequest;
+                $eventStoreRequest->user_id = $_POST['category_id'];
+                $eventStoreRequest->category_id = $_POST['category_id'];
+                $eventStoreRequest->title = $_POST['title'];
+                $eventStoreRequest->description = $_POST['description'];
+                $eventStoreRequest->image_name = $_FILES['image']['name'];
+                $eventStoreRequest->image_tmp = $_FILES['image']['tmp_name'];
+                $eventStoreRequest->image_size = $_FILES['image']['size'];
+                $eventStoreRequest->location = $_POST['location'];
+                $eventStoreRequest->start_datetime = $_POST['start_datetime'];
+                $eventStoreRequest->end_datetime = $_POST['end_datetime'];
 
-        } catch (Exception $ex) {
-            echo $ex->getMessage();
+                $status = $this->eventService->storeEvent($eventStoreRequest);
+
+                if ($status) {
+                    Flasher::setFlash('Create event success', 'success');
+                } else {
+                    Flasher::setFlash('Create event failed', 'danger');
+                }
+            } catch (Exception $ex) {
+                Flasher::setFlash($ex->getMessage(), 'danger');
+            }
+
+            $this->back();
         }
+
+        $this->view('admin/events/store', $data);
     }
 
-    public function edit()
+    public function edit(int $id)
     {
-        try{
-            $id = $_GET['id'];
-            $event = $this->eventService->getEvent($id);
-            $categories = $this->categoryService->getAllCategory();
-            $category = $this->categoryService->getCategory($event->category_id);
-
-            $data['categories'] = $categories;
-            $data['category'] = $category;
-            $data['event'] = $event;
-            $data['title'] = 'Edit Event';
-
-            $this->view('templates/header', $data);
-            $this->view('user/event/edit', $data);
-            $this->view('templates/footer');
-
+        try {
+            $data['categoryData'] = $this->categoryService->getAllCategory();
+            $data['userData'] = $this->userService->getUsers();
+            $data['editData'] = $this->eventService->getEvent($id);
+            $this->view('admin/events/edit', $data);
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
         }
     }
 
     public function update()
     {
-        try {
-            $eventStoreRequest = new EventStoreRequest;
-            $eventStoreRequest->id = $_POST['id'];
-            $eventStoreRequest->category_id = $_POST['category_id'];
-            $eventStoreRequest->title = $_POST['title'];
-            $eventStoreRequest->description = $_POST['description'];
-            $eventStoreRequest->image_name = $_FILES['image']['name'];
-            $eventStoreRequest->image_tmp = $_FILES['image']['tmp_name'];
-            $eventStoreRequest->image_size = $_FILES['image']['size'];
-            $eventStoreRequest->image_current = $_POST['image_current'];
-            $eventStoreRequest->location = $_POST['location'];
-            $eventStoreRequest->start_datetime = $_POST['start_datetime'];
-            $eventStoreRequest->end_datetime = $_POST['end_datetime'];
+        if (isset($_POST['id'])) {
+            try {
+                $eventStoreRequest = new EventStoreRequest;
+                $eventStoreRequest->id = $_POST['id'];
+                $eventStoreRequest->user_id = $_POST['user_id'];
+                $eventStoreRequest->category_id = $_POST['category_id'];
+                $eventStoreRequest->title = $_POST['title'];
+                $eventStoreRequest->description = $_POST['description'];
+                $eventStoreRequest->image_name = $_FILES['image']['name'];
+                $eventStoreRequest->image_tmp = $_FILES['image']['tmp_name'];
+                $eventStoreRequest->image_size = $_FILES['image']['size'];
+                $eventStoreRequest->image_current = $_POST['image_current'];
+                $eventStoreRequest->location = $_POST['location'];
+                $eventStoreRequest->start_datetime = $_POST['start_datetime'];
+                $eventStoreRequest->end_datetime = $_POST['end_datetime'];
 
-            $this->eventService->updateEvent($eventStoreRequest);
+                $status = $this->eventService->updateEvent($eventStoreRequest);
 
-            header('Location: ' . BASE_URL . '/event');
+                if ($status) {
+                    Flasher::setFlash('Update event success', 'success');
+                } else {
+                    Flasher::setFlash('Update event failed', 'danger');
+                }
+            } catch (Exception $ex) {
+                Flasher::setFlash($ex->getMessage(), 'danger');
+            }
 
-        } catch (Exception $ex) {
-           echo $ex->getMessage();
+            $this->back();
         }
     }
 
-    public function delete()
+    public function delete(int $id)
     {
-        try{
-            $id = $_GET['id'];
-            $this->eventService->deleteEvent($id);
-            header('Location: ' . BASE_URL . '/event');
+        try {
+            $status = $this->eventService->deleteEvent($id);
 
+            if ($status) {
+                Flasher::setFlash('Delete event success', 'success');
+            } else {
+                Flasher::setFlash('Delete event failed', 'danger');
+            }
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
         }
+
+        $this->back();
     }
 
+    private function back()
+    {
+        echo "<script>location.href = '" . BASE_URL . "/dashboard/admin/event';</script>";
+
+        return;
+    }
 }

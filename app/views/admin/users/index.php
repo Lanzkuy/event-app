@@ -162,10 +162,10 @@
     function openModal(id, page) {
         if (id === 0) {
             $('.modal-title').html('Add ' + page)
-            let url = '<?= BASE_URL ?>/dashboard/admin/' + page.toLowerCase() + '/create';
+            let url = '<?= BASE_URL ?>/dashboard/admin/' + page.toLowerCase() + '/store';
 
             $.post(url, function(data, success) {
-                $('form').get(0).setAttribute('action', page.toLowerCase() + '/create');
+                $('form').get(0).setAttribute('action', page.toLowerCase() + '/store');
                 $('.modal-body').html(data);
             })
         } else {

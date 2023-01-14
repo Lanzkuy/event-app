@@ -26,7 +26,7 @@ class UserController extends Controller
         $this->view('templates/footer');
     }
 
-    public function create()
+    public function store()
     {
         if (isset($_POST['email'])) {
             try {
@@ -51,13 +51,18 @@ class UserController extends Controller
             $this->back();
         }
 
-        $this->view('admin/users/create');
+        $this->view('admin/users/store');
     }
 
     public function edit(int $id)
     {
-        $data['editData'] = $this->userService->getUser($id);
-        $this->view('admin/users/edit', $data);
+        try{
+            $data['editData'] = $this->userService->getUser($id);
+            $this->view('admin/users/edit', $data);
+
+        } catch (Exception $ex) {
+            Flasher::setFlash($ex->getMessage(), 'danger');
+        }
     }
 
     public function update(int $id)
@@ -107,7 +112,7 @@ class UserController extends Controller
         if (isset($_POST['old_password'])) {
             try {
                 $status = $this->userService->changePassword($_POST['old_password'], $_POST['new_password'], $_POST['confirm_password']);
-                var_dump($status);
+
                 if ($status) {
                     Flasher::setFlash('Change password success', 'success');
                 } else {
