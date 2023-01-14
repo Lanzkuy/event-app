@@ -243,10 +243,7 @@ class UserService
     {
         $this->validateChangePasswordRequest($old_password, $new_password, $confirm_password);
 
-        $user = new User;
-        $user->password = $confirm_password;
-
-        $change_password = $this->userRepository->update($user);
+        $change_password = $this->userRepository->changePassword($_SESSION['user_session']['id'], $confirm_password);
 
         if (is_null($change_password)) {
             throw new ServiceManagementException('Failed to change password');

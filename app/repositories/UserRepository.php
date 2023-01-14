@@ -92,4 +92,13 @@ class UserRepository
 
         return $this->db->execute();
     }
+
+    public function changePassword(int $id, string $password): bool
+    {
+        $this->db->query('UPDATE ' . self::db_name . ' SET password = :password WHERE id = :id');
+        $this->db->bind('id', $id);
+        $this->db->bind('password', $password);
+
+        return $this->db->execute();
+    }
 }
