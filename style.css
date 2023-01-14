@@ -1,0 +1,67 @@
+body {
+    margin:  0;
+    padding: 0;
+    background: url(happy_place.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: sans-serif;
+}
+body h2 {
+    color: white;
+}
+
+.login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    width: 270px;
+    box-shadow: 0 0 10px 5px black;
+}
+
+.avatar {
+    font-size: 50px;
+    background: #bdc3c7;
+    width: 60px;
+    height: 60px;
+    line-height: 40px;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    color: #2c3e50;
+}
+
+.login h2 {
+    text-align: center;
+    color: white;
+    padding-top: 10px;
+    letter-spacing: 5px;
+}
+
+.form-label {
+    color: white;
+}
+
+.btn-login {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1px solid white;
+}
+
+.bottom {
+    color: white;
+    text-align: center;
+}
+
+.bottom a {
+    color: white;
+
+}
