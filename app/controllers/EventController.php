@@ -4,19 +4,23 @@ namespace App\Controllers;
 
 use Exception;
 use App\Core\Controller;
-use App\Models\EventStoreRequest;
 use App\Services\EventService;
+use App\Services\TicketService;
+use App\Models\EventStoreRequest;
 use App\Services\CategoryService;
+use App\Models\TicketStoreRequest;
 
 class EventController extends Controller
 {
     private EventService $eventService;
     private CategoryService $categoryService;
+    private TicketService $ticketService;
 
     public function __construct()
     {
         $this->eventService = $this->service('Event');
         $this->categoryService = $this->service('Category');
+        $this->ticketService = $this->service('Ticket');
     }
 
     public function index()
@@ -78,7 +82,26 @@ class EventController extends Controller
             $eventStoreRequest->start_datetime = $_POST['start_datetime'];
             $eventStoreRequest->end_datetime = $_POST['end_datetime'];
 
-            $this->eventService->storeEvent($eventStoreRequest);
+            $eventId = $this->eventService->storeEvent($eventStoreRequest);
+
+            $ticketStoreRequest1 = new TicketStoreRequest;
+            $ticketStoreRequest1->event_id = $eventId;
+            $ticketStoreRequest1->price = $_POST['reguler_price'];
+            $ticketStoreRequest1->stock = $_POST['reguler_stock'];
+            $ticketStoreRequest1->type = 'Reguler';
+            $ticketStoreRequest1->description = $_POST['reguler_description'];
+            
+            $this->ticketService->storeTicket($ticketStoreRequest1);
+
+            $ticketStoreRequest2 = new TicketStoreRequest;
+            $ticketStoreRequest2->event_id = $eventId;
+            $ticketStoreRequest2->price = $_POST['reguler_price'];
+            $ticketStoreRequest2->stock = $_POST['reguler_stock'];
+            $ticketStoreRequest2->type = 'VIP';
+            $ticketStoreRequest2->description = $_POST['vip_description'];
+            
+            $this->ticketService->storeTicket($ticketStoreRequest2);
+
             header('Location: ' . BASE_URL . '/event');
 
         } catch (Exception $ex) {
@@ -92,7 +115,13 @@ class EventController extends Controller
             $id = $_GET['id'];
             $event = $this->eventService->getEvent($id);
             $categories = $this->categoryService->getAllCategory();
+
+            $ticketReguler = $this->ticketService->getTicketByType('Reguler', $id);
+            $ticketVIP = $this->ticketService->getTicketByType('VIP', $id);
+
             $data['categories'] = $categories;
+            $data['ticketReguler'] = $ticketReguler;
+            $data['ticketVIP'] = $ticketVIP;
             $data['event'] = $event;
             $data['title'] = 'Edit Event';
 
@@ -105,7 +134,7 @@ class EventController extends Controller
         }
     }
 
-    public function update()
+    public function updateEvent()
     {
         try {
             $eventStoreRequest = new EventStoreRequest;
@@ -130,11 +159,39 @@ class EventController extends Controller
         }
     }
 
+    public function updateTicket()
+    {
+        try {
+
+            $ticketStoreRequest1 = new TicketStoreRequest;
+            $ticketStoreRequest1->id = $_POST['reguler_id'];
+            $ticketStoreRequest1->price = $_POST['reguler_price'];
+            $ticketStoreRequest1->stock = $_POST['reguler_stock'];
+            $ticketStoreRequest1->description = $_POST['reguler_description'];
+            
+            $this->ticketService->updateTicket($ticketStoreRequest1);
+
+            $ticketStoreRequest2 = new TicketStoreRequest;
+            $ticketStoreRequest2->id = $_POST['vip_id'];
+            $ticketStoreRequest2->price = $_POST['vip_price'];
+            $ticketStoreRequest2->stock = $_POST['vip_stock'];
+            $ticketStoreRequest2->description = $_POST['vip_description'];
+            
+            $this->ticketService->updateTicket($ticketStoreRequest2);
+
+            header('Location: ' . BASE_URL . '/event');
+
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
     public function delete()
     {
         try{
             $id = $_GET['id'];
             $this->eventService->deleteEvent($id);
+            $this->ticketService->deleteTicket($id);
             header('Location: ' . BASE_URL . '/event');
 
         } catch (Exception $ex) {
