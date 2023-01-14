@@ -4,7 +4,6 @@ namespace App\Models;
 
 class EventStoreRequest
 {
-    public int $id;
     public int $category_id;
     public string $title;
     public string $description;
