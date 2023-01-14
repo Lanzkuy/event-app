@@ -107,7 +107,7 @@ class EventRepository
 
     public function getRow()
     {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE user_id = :user_id');
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE user_id = :user_id AND deleted_at is null');
         $this->db->bind('user_id', $this->user_id);
 
         return $this->db->rowCount();
