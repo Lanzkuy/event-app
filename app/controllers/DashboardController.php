@@ -47,8 +47,13 @@ class DashboardController extends Controller
 
         if ($param1 == 'index') {
             $data['title'] = 'Dashboard';
+            $data['totalUser'] = $this->userController->getRowCount();
+            $data['totalEvent'] = $this->eventController->getRowCount();
+            $data['totalTicket'] = $this->ticketController->getRowCount();
+            $data['totalOrder'] = $this->orderController->getRowCount();
+            $data['orderSummary'] = $this->orderController->getOrderSummary();
             $this->view('templates/header', $data);
-            $this->view('dashboard/admin');
+            $this->view('dashboard/admin', $data);
             $this->view('templates/footer');
         }
 

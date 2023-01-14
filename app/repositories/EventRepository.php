@@ -121,6 +121,13 @@ class EventRepository
         return $this->db->rowCount();
     }
 
+    public function getRowCount() : int
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+
+        return $this->db->rowCount();
+    }
+
     public function paginate(?string $title): int
     {
         if ($title) {

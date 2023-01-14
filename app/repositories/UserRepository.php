@@ -101,4 +101,11 @@ class UserRepository
 
         return $this->db->execute();
     }
+
+    public function getRowCount() : int
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+
+        return $this->db->rowCount();
+    }
 }

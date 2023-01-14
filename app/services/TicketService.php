@@ -124,4 +124,8 @@ class TicketService
     {
         return $this->ticketRepository->getByEventId($event_id);
     }
+
+    public function getRowCount() : int {
+        return $this->ticketRepository->getRowCount();
+    }
 }

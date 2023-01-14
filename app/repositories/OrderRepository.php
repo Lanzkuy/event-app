@@ -26,7 +26,7 @@ class OrderRepository
 
         $data = $this->db->fetch();
 
-        if($data == false){
+        if ($data == false) {
             return null;
         }
 
@@ -44,7 +44,7 @@ class OrderRepository
 
         return $this->db->execute();
     }
-    
+
 
     public function update(Order $order): bool
     {
@@ -101,5 +101,21 @@ class OrderRepository
         return $this->db->fetchAll();
     }
 
-   
+    public function getRowCount(): int
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+
+        return $this->db->rowCount();
+    }
+
+    public function getOrderSummary(): array
+    {
+        for ($i = 1; $i < 13; $i++) {
+            $this->db->query('SELECT COUNT(*) as order_total FROM ' . self::db_name . ' WHERE MONTH(order_date)=' . $i);
+            $row = $this->db->fetchAll();
+            $result[] = $row[0]['order_total'];
+        }
+
+        return $result;
+    }
 }

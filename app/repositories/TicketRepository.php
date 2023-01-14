@@ -120,5 +120,11 @@ class TicketRepository
         $this->db->bind('event_id', $event_id);
         return $this->db->fetchAll();
     }
- 
+
+    public function getRowCount() : int
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+
+        return $this->db->rowCount();
+    }
 }

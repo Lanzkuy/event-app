@@ -222,4 +222,8 @@ class EventService
     {
         return $this->eventRepository->paginate($title);
     }
+
+    public function getRowCount() : int {
+        return $this->eventRepository->getRowCount();
+    }
 }

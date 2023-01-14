@@ -81,7 +81,7 @@ class EventController extends Controller
         }
     }
 
-    public function updateEvent()
+    public function update()
     {
         if (isset($_POST['id'])) {
             try {
@@ -129,6 +129,11 @@ class EventController extends Controller
         }
 
         $this->back();
+    }
+
+    public function getRowCount(): int
+    {
+        return $this->eventService->getRowCount();
     }
 
     private function back()

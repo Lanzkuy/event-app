@@ -29,7 +29,7 @@ class OrderService
             throw new InputValidationException('Minimun tiket amount is 1');
         }
 
-        if($request->ticket_amount > $request->ticket_stock){
+        if ($request->ticket_amount > $request->ticket_stock) {
             throw new InputValidationException('Maximum tiket amount is ' . $request->ticket_stock);
         }
     }
@@ -39,7 +39,7 @@ class OrderService
         $this->validateOrderStoreRequest($request);
 
         $total_price = $request->ticket_amount * $request->ticket_price;
-        
+
         $order = new Order;
         $order->total_qty = $request->ticket_amount;
         $order->total_price = $total_price;
@@ -62,7 +62,7 @@ class OrderService
         $this->validateOrderStoreRequest($request);
 
         $total_price = $request->ticket_amount * $request->ticket_price;
-        
+
         $order = new Order;
         $order->id = $request->id;
         $order->total_qty = $request->ticket_amount;
@@ -96,6 +96,13 @@ class OrderService
         return $this->orderRepository->getByOrderDetail($order_id);
     }
 
-    
-}
+    public function getRowCount(): int
+    {
+        return $this->orderRepository->getRowCount();
+    }
 
+    public function getOrderSummary() : array
+    {
+        return $this->orderRepository->getOrderSummary();
+    }
+}

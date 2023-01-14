@@ -16,7 +16,7 @@ var optionsOrderPerMonth = {
 	},
 	series: [{
 		name: 'order',
-		data: [9,20,30,20,10,20,30,20,10,20,30,20]
+		data: orderSummary
 	}],
 	colors: '#702adc',
 	xaxis: {

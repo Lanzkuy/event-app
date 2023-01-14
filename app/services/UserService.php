@@ -76,7 +76,7 @@ class UserService
         }
     }
 
-    public function validateUserUpdateRequest(UserRegisterRequest $request) : void
+    public function validateUserUpdateRequest(UserRegisterRequest $request): void
     {
         if (empty(trim($request->email))) {
             throw new InputValidationException('Email must be filled');
@@ -100,7 +100,7 @@ class UserService
         }
     }
 
-    public function validateChangePasswordRequest(string $old_password, string $new_password, string $confirm_password) : void
+    public function validateChangePasswordRequest(string $old_password, string $new_password, string $confirm_password): void
     {
         if (empty(trim($old_password))) {
             throw new InputValidationException('Old password must be filled');
@@ -132,7 +132,7 @@ class UserService
 
         $user = $this->userRepository->get('id', $_SESSION['user_session']['id']);
 
-        if($old_password != $user->password) {
+        if (!password_verify($old_password, $user->password)) {
             throw new InputValidationException('Old password is wrong');
         }
     }
@@ -154,14 +154,11 @@ class UserService
             $response->email = $user->email;
             $response->name = $user->name;
             $response->role = $user->role;
-    
-            return $response;
 
-        }else{
+            return $response;
+        } else {
             throw new AuthenticationException('Email or password was wrong');
         }
-
-      
     }
 
     public function register(UserRegisterRequest $request): UserRegisterResponse
@@ -219,7 +216,7 @@ class UserService
         return $this->userRepository->find($email, $position, $limit);
     }
 
-    public function updateUser(UserRegisterRequest $request) : bool
+    public function updateUser(UserRegisterRequest $request): bool
     {
         $this->validateUserUpdateRequest($request);
 
@@ -238,7 +235,7 @@ class UserService
         return $update;
     }
 
-    public function deleteUser(int $id) : bool
+    public function deleteUser(int $id): bool
     {
         $delete = $this->userRepository->delete($id);
 
@@ -249,16 +246,20 @@ class UserService
         return $delete;
     }
 
-    public function changePassword(string $old_password, string $new_password, string $confirm_password) : bool
+    public function changePassword(string $old_password, string $new_password, string $confirm_password): bool
     {
         $this->validateChangePasswordRequest($old_password, $new_password, $confirm_password);
 
-        $change_password = $this->userRepository->changePassword($_SESSION['user_session']['id'], $confirm_password);
+        $change_password = $this->userRepository->changePassword($_SESSION['user_session']['id'], password_hash($confirm_password, PASSWORD_BCRYPT));
 
         if (is_null($change_password)) {
             throw new ServiceManagementException('Failed to change password');
         }
 
         return $change_password;
+    }
+
+    public function getRowCount() : int {
+        return $this->userRepository->getRowCount();
     }
 }

@@ -115,6 +115,11 @@ class TicketController extends Controller
         $this->back();
     }
 
+    public function getRowCount(): int
+    {
+        return $this->ticketService->getRowCount();
+    }
+
     private function back()
     {
         echo "<script>location.href = '" . BASE_URL . "/dashboard/admin/ticket';</script>";

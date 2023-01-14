@@ -70,7 +70,7 @@
                 <i class="bi bi-justify fs-3"></i>
             </a>
         </header>
-        
+
         <div class="page-heading">
             <div class="page-title">
                 <div class="row">
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Total Users</h6>
-                                    <h6 class="font-extrabold mb-0">155</h6>
+                                    <h6 class="font-extrabold mb-0"><?= $data['totalUser']; ?></h6>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Total Events</h6>
-                                    <h6 class="font-extrabold mb-0">32</h6>
+                                    <h6 class="font-extrabold mb-0"><?= $data['totalEvent']; ?></h6>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Total Tickets</h6>
-                                    <h6 class="font-extrabold mb-0">110</h6>
+                                    <h6 class="font-extrabold mb-0"><?= $data['totalTicket']; ?></h6>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                     <h6 class="text-muted font-semibold">Total Orders</h6>
-                                    <h6 class="font-extrabold mb-0">80</h6>
+                                    <h6 class="font-extrabold mb-0"><?= $data['totalOrder']; ?></h6>
                                 </div>
                             </div>
                         </div>
@@ -167,3 +167,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    var orderSummary = <?php echo json_encode($data['orderSummary']); ?>;
+</script>

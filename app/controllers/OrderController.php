@@ -87,4 +87,13 @@ class OrderController extends Controller
         }
     }
 
+    public function getRowCount(): int
+    {
+        return $this->orderService->getRowCount();
+    }
+
+    public function getOrderSummary(): array
+    {
+        return $this->orderService->getOrderSummary();
+    }
 }

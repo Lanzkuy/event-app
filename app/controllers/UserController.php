@@ -106,6 +106,11 @@ class UserController extends Controller
         $this->back();
     }
 
+    public function getRowCount(): int
+    {
+        return $this->userService->getRowCount();
+    }
+
     public function changePassword()
     {
         if (isset($_POST['old_password'])) {
