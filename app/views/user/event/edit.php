@@ -1,4 +1,4 @@
-<form action="./update" method="post" enctype="multipart/form-data">
+<form action="./updateEvent" method="post" enctype="multipart/form-data">
     <select name="category_id">
         <option value="0">select category</option>
         <?php foreach($data['categories'] as $category){ ?>
@@ -15,6 +15,23 @@
     <input type="datetime-local" name="start_datetime" placeholder="start_datetime" value="<?= $data['event']['start_datetime'] ?>"><br>
     <input type="datetime-local" name="end_datetime" placeholder="end_datetime" value="<?= $data['event']['end_datetime'] ?>"><br>
     
-    <input type="submit" value="Update">
+    <input type="submit" value="Update Event">
 </form>
+<hr>
+<form action="./updateTicket" method="post">
+    <input type="hidden" name="reguler_id" value="<?= $data['ticketReguler']['id'] ?>">
+    <input type="text" value="Reguler" disabled><br>
+    <input type="number" name="reguler_price" placeholder="price ticket" value="<?= $data['ticketReguler']['price'] ?>"><br>
+    <input type="number" name="reguler_stock" placeholder="stock" value="<?= $data['ticketReguler']['stock'] ?>"><br>
+    <input type="text" name="reguler_description" placeholder="desc" value="<?= $data['ticketReguler']['description'] ?>"><br><br>
+    
+    <input type="hidden" name="vip_id" value="<?= $data['ticketVIP']['id'] ?>">
+    <input type="text" value="VIP" disabled><br>
+    <input type="number" name="vip_price" placeholder="price ticket" value="<?= $data['ticketVIP']['price'] ?>"><br>
+    <input type="number" name="vip_stock" placeholder="stock" value="<?= $data['ticketVIP']['stock'] ?>"><br>
+    <input type="text" name="vip_description" placeholder="desc" value="<?= $data['ticketVIP']['description'] ?>"><br>
+    <br>
+    <input type="submit" value="Update Ticket">
+</form>
+
 <a href="../event">back</a>
