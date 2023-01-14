@@ -60,6 +60,17 @@ class TicketService
         return $create;
     }
 
+    public function getTicket(int $id): ?Ticket
+    {
+        $event = $this->ticketRepository->get('id', $id);
+
+        if (is_null($event)) {
+            throw new ServiceManagementException('Ticket not found');
+        }
+
+        return $event;
+    }
+
     public function getTicketByType(string $type, int $event_id)
     {
         return $this->ticketRepository->getByType($type, $event_id);
@@ -75,7 +86,7 @@ class TicketService
         return $this->ticketRepository->getAll();
     }
 
-    public function findTicket(string $event_title, int $position = 0, int $limit = 8): array
+    public function findTicket(string $event_title, int $position = 0, int $limit = 5): array
     {
         return $this->ticketRepository->find($event_title, $position, $limit);
     }
@@ -113,5 +124,4 @@ class TicketService
     {
         return $this->ticketRepository->getByEventId($event_id);
     }
-
 }

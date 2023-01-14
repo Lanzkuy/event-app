@@ -134,7 +134,7 @@ class EventService
         return $store;
     }
 
-    public function getEvent(int $id): array
+    public function getEvent(int $id): ?Event
     {
         $event = $this->eventRepository->get('id', $id);
 

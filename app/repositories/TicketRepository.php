@@ -27,6 +27,29 @@ class TicketRepository
         return $this->db->execute();
     }
 
+    public function get(string $key, string $value): ?Ticket
+    {
+        $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.' . $key .  ' = :value AND t.deleted_at is null LIMIT 1');
+        $this->db->bind('value', $value);
+        $data = $this->db->fetch();
+
+        if ($data == false) {
+            return null;
+        }
+
+        $ticket = new Ticket;
+        $ticket->id = $data['id'];
+        $ticket->event_id = $data['event_id'];
+        $ticket->price = $data['price'];
+        $ticket->stock = $data['stock'];
+        $ticket->type = $data['type'];
+        $ticket->description = $data['description'];
+        $ticket->created_at = $data['created_at'];
+        $ticket->deleted_at = $data['deleted_at'];
+
+        return $ticket;
+    }
+
     public function getByType(string $type, int $event_id)
     {
         $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE event_id = :event_id AND type = :type');

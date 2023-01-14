@@ -101,7 +101,7 @@ class TicketController extends Controller
     public function delete(int $id)
     {
         try {
-            $status = $this->ticketService->deleteEvent($id);
+            $status = $this->ticketService->deleteTicket($id);
 
             if ($status) {
                 Flasher::setFlash('Delete ticket success', 'success');

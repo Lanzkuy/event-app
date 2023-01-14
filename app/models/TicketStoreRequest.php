@@ -4,6 +4,7 @@ namespace App\Models;
 
 class TicketStoreRequest
 {
+    public int $id;
     public int $event_id;
     public int $price;
     public int $stock;
