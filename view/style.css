@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+* {
+    font-family: 'Nunito';
+}
+
+.section-p1 {
+    padding: 40px 80px;
+}
+
+nav .nav-search{
+    display: flex;
+}
+
+nav .container-fluid{
+    margin: 0 60px;
+    padding: 0 60px;
+}
+
+nav .nav-r {
+    display: flex;
+}
+
+nav .nav-r .nav-link{
+    color: white;
+    font-size: 20px;
+}
+
+/* section banner */
+
+#banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #000080;
+    color: white;
+    padding: 40px 0;
+}
+
+/* section column trend */
+
+#col-trend h4{
+    margin-left: 40px;
+}
+
+
+#col-trend .pro-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 40px;
+}
+
+#col-trend .pro {
+    width: 23%;
+    min-width: 250px;
+    padding: 12px;
+    border: 1px solid #cce7d0;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.02);
+    margin: 15px 0;
+    transition: 0.2s ease;
+    position: relative;
+}
+#col-trend .pro:hover {
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
+
+}
+
+#col-trend .pro img {
+    width: 100%;
+    border-radius: 35px;
+}
+
+#col-trend .pro .des {
+    text-align: start;
+    padding: 10px 0;
+}
+
+#col-trend .pro .des span {
+    color: #606063;
+    font-size: 12px;    
+}
+
+#col-trend .pro .des h5 {
+    padding-top: 7px;
+    color: #1a1a1a;
+    font-size: 14px;
+}
+
+#col-trend .pro .des h4 {
+    padding-top: 7px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #2155CD;
+}
