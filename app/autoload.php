@@ -35,10 +35,6 @@ spl_autoload_register(function ($class) {
         require_once $repository_path;
     }
 
-    if (file_exists($repository_path)) {
-        require_once $repository_path;
-    }
-
     if (file_exists($service_path)) {
         require_once $service_path;
     }

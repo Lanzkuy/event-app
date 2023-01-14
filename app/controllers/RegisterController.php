@@ -6,6 +6,7 @@ use Exception;
 use App\Core\Controller;
 use App\Models\UserRegisterRequest;
 use App\Services\UserService;
+use Flasher;
 
 class RegisterController extends Controller
 {
@@ -38,7 +39,7 @@ class RegisterController extends Controller
             header('Location: ' . BASE_URL . '/');
 
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
         }
     }
 }
