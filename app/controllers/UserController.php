@@ -56,10 +56,9 @@ class UserController extends Controller
 
     public function edit(int $id)
     {
-        try{
+        try {
             $data['editData'] = $this->userService->getUser($id);
             $this->view('admin/users/edit', $data);
-
         } catch (Exception $ex) {
             Flasher::setFlash($ex->getMessage(), 'danger');
         }
@@ -115,16 +114,14 @@ class UserController extends Controller
 
                 if ($status) {
                     Flasher::setFlash('Change password success', 'success');
+
+                    echo "<script>location.href = '" . BASE_URL . "/dashboard/logout';</script>";
                 } else {
                     Flasher::setFlash('Change password failed', 'danger');
                 }
             } catch (Exception $ex) {
                 Flasher::setFlash($ex->getMessage(), 'danger');
             }
-
-            echo "<script>location.href = '" . BASE_URL . "/dashboard/logout';</script>";
-
-            return;
         }
 
         $data['title'] = 'Change Password';

@@ -129,6 +129,12 @@ class UserService
         if ($confirm_password != $new_password) {
             throw new InputValidationException('Confirm password must be same as password');
         }
+
+        $user = $this->userRepository->get('id', $_SESSION['user_session']['id']);
+
+        if($old_password != $user->password) {
+            throw new InputValidationException('Old password is wrong');
+        }
     }
 
     public function login(UserLoginRequest $request): UserLoginResponse

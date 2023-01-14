@@ -90,6 +90,11 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php Flasher::flash(); ?>
+                </div>
+            </div>
             <form method="POST" action="change-password">
                 <label>Old Password </label>
                 <div class="form-group">
