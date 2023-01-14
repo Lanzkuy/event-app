@@ -7,6 +7,7 @@
         <th>ticket_price</th>
         <th>ticket_qty</th>
         <th>total</th>
+        <th>status</th>
         <th>action</th>
     </tr>
         <?php foreach($data['orderDetails'] as $orderDetail){?>
@@ -16,6 +17,7 @@
                 <td>Rp<?= number_format($orderDetail['ticket_price'])?></td>
                 <td><?= $orderDetail['qty']?></td>
                 <td>Rp<?= number_format($orderDetail['total_price'])?></td>
+                <td><?= $data['order']['status'] ?></td>
                 <td>
                     <form action="./cart/delete" method="post">
                         <input type="hidden" name="order_id" value="<?= $data['order']['id'] ?>">
