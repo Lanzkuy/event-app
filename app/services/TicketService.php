@@ -19,9 +19,9 @@ class TicketService
 
     public function validateTicketRequest(TicketStoreRequest $request): void
     {
-        if (empty(trim($request->event_id))) {
-            throw new InputValidationException('Event id must be filled');
-        }
+        // if (empty(trim($request->event_id))) {
+        //     throw new InputValidationException('Event id must be filled');
+        // }
 
         if (empty(trim($request->type))) {
             throw new InputValidationException('Price must be filled');
@@ -60,15 +60,25 @@ class TicketService
         return $create;
     }
 
+    public function updateQtyTicket(int $id, int $qty)
+    {
+        return $this->ticketRepository->updateQty($id, $qty);
+    }
+
     public function getTicket(int $id): ?Ticket
     {
-        $event = $this->ticketRepository->get('id', $id);
+        $ticket = $this->ticketRepository->get('id', $id);
 
-        if (is_null($event)) {
+        if (is_null($ticket)) {
             throw new ServiceManagementException('Ticket not found');
         }
 
-        return $event;
+        return $ticket;
+    }
+
+    public function getTicketByEventId(int $event_id): array
+    {
+        return $this->ticketRepository->getByEventId($event_id);
     }
 
     public function getTickets(int $position = 0, int $limit = 8): array
