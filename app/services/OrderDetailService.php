@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\ServiceManagementException;
 use App\Models\OrderDetailStoreRequest;
 use App\Models\OrderDetail;
 
@@ -34,6 +35,11 @@ class OrderDetailService
         $orderDetail->total_price = $total_price;
 
         return $this->orderDetailRepository->store($orderDetail);
+    }
+
+    public function getOrderDetailById(int $id) : array
+    {
+        return $this->orderDetailRepository->getOrderDetailById($id);
     }
 
     public function getOrderDetailByOrderId(int $order_id)

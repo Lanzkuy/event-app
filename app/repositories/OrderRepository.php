@@ -45,6 +45,12 @@ class OrderRepository
         return $this->db->execute();
     }
 
+    public function getAll(): array
+    {
+        $this->db->query('SELECT o.*, u.name as user_name FROM ' . self::db_name . ' o INNER JOIN user u ON o.user_id = u.id WHERE o.deleted_at is null ORDER BY order_date');
+        
+        return $this->db->fetchAll();
+    }
 
     public function update(Order $order): bool
     {

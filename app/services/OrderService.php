@@ -9,6 +9,7 @@ use App\Models\OrderStoreRequest;
 use App\Repositories\OrderRepository;
 use App\Models\OrderDetailStoreRequest;
 use App\Exceptions\InputValidationException;
+use App\Exceptions\ServiceManagementException;
 
 class OrderService
 {
@@ -45,6 +46,11 @@ class OrderService
         $order->total_price = $total_price;
 
         return $this->orderRepository->store($order);
+    }
+
+    public function getOrders(): array
+    {
+        return $this->orderRepository->getAll();
     }
 
     public function updateDataOrder(OrderDetailStoreRequest $request)

@@ -135,7 +135,17 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'order') {
-            $this->orderController->index();
+            if($param2 == 'index') {
+                $this->orderController->index();
+            }
+
+            if($param2 == 'detail') {
+                $this->orderController->index($param3);
+            }
+
+            if($param2 == 'delete') {
+                $this->orderController->delete($param3);
+            }
             return;
         }
     }

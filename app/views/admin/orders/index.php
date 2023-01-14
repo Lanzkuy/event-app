@@ -89,6 +89,11 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php Flasher::flash(); ?>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">Order Data</div>
                 <div class="card-body">
@@ -103,6 +108,22 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($data['orderData'] as $order) { ?>
+                                <tr>
+                                    <td><?= $order['user_name']; ?></td>
+                                    <td><?= $order['order_date']; ?></td>
+                                    <td><?= $order['total_qty']; ?></td>
+                                    <td><?= $order['total_price']; ?></td>
+                                    <td>
+                                        <a href="<?= BASE_URL ?>/dashboard/admin/order/detail/<?= $order['id']; ?>">
+                                            <i class="badge-circle font-medium-1 " data-feather="list"></i>
+                                        </a>
+                                        <a href="<?= BASE_URL ?>/dashboard/admin/order/delete/<?= $order['id']; ?>" onClick="javascript: return confirm('Are you sure want to delete ?');">
+                                            <i class="badge-circle font-medium-1" data-feather="trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -115,12 +136,21 @@
                             <tr>
                                 <th>Event</th>
                                 <th>Type</th>
+                                <th>Price</th>
                                 <th>Qty</th>
                                 <th>Total Price</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($data['orderDataDetail'] as $order) { ?>
+                                <tr>
+                                    <td><?= $order['event_title']; ?></td>
+                                    <td><?= $order['ticket_type']; ?></td>
+                                    <td><?= $order['ticket_price']; ?></td>
+                                    <td><?= $order['qty']; ?></td>
+                                    <td><?= $order['total_price']; ?></td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>

@@ -38,6 +38,14 @@ class OrderDetailRepository
         return $this->db->execute();
     }
 
+    public function getOrderDetailById(int $id) : array
+    {
+        $this->db->query('SELECT o.*, t.type as ticket_type, t.price as ticket_price, e.title as event_title, e.image as event_image FROM ' . self::db_name . ' o INNER JOIN ticket t ON o.ticket_id = t.id INNER JOIN event e ON t.event_id = e.id WHERE o.id = :id');
+        $this->db->bind('id', $id);
+
+        return $this->db->fetch();
+    }
+
     public function getByOrderId(int $order_id)
     {
         $this->db->query('SELECT o.*, t.type as ticket_type, t.price as ticket_price, e.title as event_title, e.image as event_image FROM ' . self::db_name . ' o INNER JOIN ticket t ON o.ticket_id = t.id INNER JOIN event e ON t.event_id = e.id WHERE order_id = :order_id');
