@@ -129,17 +129,21 @@ class UserService
             throw new AuthenticationException('Email or password was wrong');
         }
 
-        if ($request->password != $user->password) {
+        if (password_verify($request->password, $user->password)) {
+
+            $response = new UserLoginResponse;
+            $response->id = $user->id;
+            $response->email = $user->email;
+            $response->name = $user->name;
+            $response->role = $user->role;
+    
+            return $response;
+
+        }else{
             throw new AuthenticationException('Email or password was wrong');
         }
 
-        $response = new UserLoginResponse;
-        $response->id = $user->id;
-        $response->email = $user->email;
-        $response->name = $user->name;
-        $response->role = $user->role;
-
-        return $response;
+      
     }
 
     public function register(UserRegisterRequest $request): UserRegisterResponse
@@ -154,7 +158,7 @@ class UserService
 
         $user = new User;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = password_hash($request->password, PASSWORD_BCRYPT);
         $user->name = $request->name;
 
         $register = $this->userRepository->store($user);
@@ -166,13 +170,13 @@ class UserService
         $get_user = $this->userRepository->get('email', $request->email);
 
         $response = new UserRegisterResponse;
-        $response->user->id = $get_user->id;
-        $response->user->email = $get_user->email;
-        $response->user->password = $get_user->password;
-        $response->user->name = $get_user->name;
-        $response->user->role = $get_user->role;
-        $response->user->created_at = $get_user->created_at;
-        $response->user->deleted_at = $get_user->deleted_at;
+        $response->id = $get_user->id;
+        $response->email = $get_user->email;
+        $response->password = $get_user->password;
+        $response->name = $get_user->name;
+        $response->role = $get_user->role;
+        $response->created_at = $get_user->created_at;
+        $response->deleted_at = $get_user->deleted_at;
 
         return $response;
     }
