@@ -19,25 +19,8 @@ class TicketService
 
     public function validateTicketRequest(TicketStoreRequest $request): void
     {
-        // if (empty(trim($request->event_id))) {
-        //     throw new InputValidationException('Event id must be filled');
-        // }
-
-        if (empty(trim($request->type))) {
-            throw new InputValidationException('Price must be filled');
-        }
-
-        if (empty(trim($request->type))) {
-            throw new InputValidationException('Stock must be filled');
-        }
-
-        if (empty(trim($request->type))) {
-            throw new InputValidationException('Event type must be filled');
-        }
-
-        if (empty(trim($request->description))) {
-            throw new InputValidationException('Description must be filled');
-        }
+        
+        
     }
 
     public function storeTicket(TicketStoreRequest $request): bool
@@ -60,47 +43,24 @@ class TicketService
         return $create;
     }
 
+    public function getTicketByType(string $type, int $event_id)
+    {
+        return $this->ticketRepository->getByType($type, $event_id);
+    }
+
     public function updateQtyTicket(int $id, int $qty)
     {
         return $this->ticketRepository->updateQty($id, $qty);
     }
 
-    public function getTicket(int $id): ?Ticket
-    {
-        $ticket = $this->ticketRepository->get('id', $id);
-
-        if (is_null($ticket)) {
-            throw new ServiceManagementException('Ticket not found');
-        }
-
-        return $ticket;
-    }
-
-    public function getTicketByEventId(int $event_id): array
-    {
-        return $this->ticketRepository->getByEventId($event_id);
-    }
-
-    public function getTickets(int $position = 0, int $limit = 8): array
-    {
-        return $this->ticketRepository->getAll($position, $limit);
-    }
-
-    public function findTicket(string $event_title, int $position = 0, int $limit = 8): array
-    {
-        return $this->ticketRepository->find($event_title, $position, $limit);
-    }
-
-    public function updateEvent(TicketStoreRequest $request): bool
+    public function updateTicket(TicketStoreRequest $request): bool
     {
         $this->validateTicketRequest($request);
 
         $ticket = new Ticket;
         $ticket->id = $request->id;
-        $ticket->event_id = $request->event_id;
         $ticket->price = $request->price;
         $ticket->stock = $request->stock;
-        $ticket->type = $request->type;
         $ticket->description = $request->description;
 
         $update = $this->ticketRepository->update($ticket);
@@ -112,14 +72,14 @@ class TicketService
         return $update;
     }
 
-    public function deleteEvent(int $id): bool
+    public function deleteTicket(int $event_id)
     {
-        $delete = $this->ticketRepository->delete($id);
-
-        if (is_null($delete)) {
-            throw new ServiceManagementException('Failed to delete ticket');
-        }
-
-        return $delete;
+        return $this->ticketRepository->delete($event_id);
     }
+
+    public function getTicketByEventId(int $event_id): array
+    {
+        return $this->ticketRepository->getByEventId($event_id);
+    }
+
 }
