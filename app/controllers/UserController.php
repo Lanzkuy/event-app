@@ -65,12 +65,12 @@ class UserController extends Controller
         }
     }
 
-    public function update(int $id)
+    public function update()
     {
         if (isset($_POST['email'])) {
             try {
                 $userRegisterRequest = new UserRegisterRequest;
-                $userRegisterRequest->id = $id;
+                $userRegisterRequest->id = $_POST['id'];
                 $userRegisterRequest->email = $_POST['email'];
                 $userRegisterRequest->name = $_POST['name'];
                 $userRegisterRequest->role = $_POST['role'];

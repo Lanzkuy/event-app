@@ -71,7 +71,7 @@ class DashboardController extends Controller
             }
 
             if($param2 == 'update') {
-                $this->userController->update($param3);
+                $this->userController->update();
             }
 
             if($param2 == 'delete') {
@@ -95,7 +95,7 @@ class DashboardController extends Controller
             }
 
             if($param2 == 'update') {
-                $this->eventController->update($param3);
+                $this->eventController->update();
             }
 
             if($param2 == 'delete') {

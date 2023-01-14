@@ -1,3 +1,4 @@
+<input type="hidden" name="id" class="form-control" value="<?= $data['editData']->id; ?>">
 <label>Email</label>
 <div class="form-group">
     <input type="text" placeholder="Email Address" name="email" class="form-control" value="<?= $data['editData']->email; ?>">
