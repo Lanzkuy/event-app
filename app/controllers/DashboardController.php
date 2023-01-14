@@ -106,7 +106,26 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'ticket') {
-            $this->ticketController->index();
+            if($param2 == 'index') {
+                $this->ticketController->index();
+            }
+
+            if($param2 == 'store') {
+                $this->ticketController->store();
+            }
+
+            if($param2 == 'edit') {
+                $this->ticketController->edit($param3);
+            }
+
+            if($param2 == 'update') {
+                $this->ticketController->update();
+            }
+
+            if($param2 == 'delete') {
+                $this->ticketController->delete($param3);
+            }
+
             return;
         }
 

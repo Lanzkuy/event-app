@@ -26,7 +26,7 @@
 </div>
 <label>Image</label>
 <div class="form-group">
-    <img src="<?= BASE_URL ?>/assets/images/<?= $data['editData']->image; ?>" alt="event image" width="100" height="100">
+    <img src="<?= BASE_URL ?>/assets/images/events/<?= $data['editData']->image; ?>" alt="event image" width="100" height="100">
     <input type="file" name="image" class="form-control mt-1">
 </div>
 <label>Location</label>

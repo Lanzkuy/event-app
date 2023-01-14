@@ -4,16 +4,16 @@
 </div>
 <label>Name</label>
 <div class="form-group">
-    <input type="text" name="name" class="form-control" >
+    <input type="text" name="name" class="form-control">
 </div>
 <label>Password</label>
 <div class="form-group">
     <input type="password" name="password" class="form-control">
-</div>  
+</div>
 <label>Confirm Password</label>
 <div class="form-group">
     <input type="password" name="confirm_password" class="form-control">
-</div>  
+</div>
 <label>Role</label>
 <select class="form-select" name="role" value="<?= $data['editData']->role; ?>">
     <option value="admin">Admin</option>

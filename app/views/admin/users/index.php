@@ -96,7 +96,7 @@
             </div>
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <div class="card-header align-self-center">User Data</div>
+                    <div class="card-header">User Data</div>
                     <button class="btn btn-primary m-4 px-4" onclick="openModal(0, 'User')" data-bs-toggle="modal" data-bs-target="#userModal">Add</button>
                 </div>
                 <div class="card-body pt-2">
@@ -144,7 +144,7 @@
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">  
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                         <i class="bx bx-x d-block d-sm-none"></i>
                         <span class="d-none d-sm-block">Close</span>
                     </button>

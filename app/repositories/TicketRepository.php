@@ -17,7 +17,7 @@ class TicketRepository
 
     public function store(Ticket $ticket): bool
     {
-        $this->db->query('INSERT INTO ' . self::db_name . '(event_id, price, type, description) VALUES (:event_id, :price, :stock, :type, :description)');
+        $this->db->query('INSERT INTO ' . self::db_name . '(event_id, price, stock, type, description) VALUES (:event_id, :price, :stock, :type, :description)');
         $this->db->bind('event_id', $ticket->event_id);
         $this->db->bind('price', $ticket->price);
         $this->db->bind('stock', $ticket->stock);
@@ -50,11 +50,18 @@ class TicketRepository
         return $ticket;
     }
 
-    public function getAll(int $position, int $limit): array
+    /*public function getAll(int $position, int $limit): array
     {
         $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null LIMIT :position, :limit');
         $this->db->bind('position', $position);
         $this->db->bind('limit', $limit);
+
+        return $this->db->fetchAll();
+    }*/
+
+    public function getAll(): array
+    {
+        $this->db->query('SELECT t.*, e.title as event_title, e.description as event_description FROM ' . self::db_name . ' t INNER JOIN event e ON t.event_id = e.id WHERE t.deleted_at is null ORDER BY event_id, price');
 
         return $this->db->fetchAll();
     }

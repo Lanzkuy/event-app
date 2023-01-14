@@ -9,6 +9,10 @@
 </div>
 <label>Role</label>
 <select class="form-select" name="role" value="<?= $data['editData']->role; ?>">
-    <option <?php if($data['editData']->role == 'admin') { echo "selected"; } ?> value="admin">Admin</option>
-    <option <?php if($data['editData']->role == 'user') { echo "selected"; } ?> value="user">User</option>
+    <option <?php if ($data['editData']->role == 'admin') {
+                echo "selected";
+            } ?> value="admin">Admin</option>
+    <option <?php if ($data['editData']->role == 'user') {
+                echo "selected";
+            } ?> value="user">User</option>
 </select>

@@ -23,11 +23,11 @@ class TicketService
             throw new InputValidationException('Event id must be filled');
         }
 
-        if (empty(trim($request->type))) {
+        if (empty(trim($request->price))) {
             throw new InputValidationException('Price must be filled');
         }
 
-        if (empty(trim($request->type))) {
+        if (empty(trim($request->stock))) {
             throw new InputValidationException('Stock must be filled');
         }
 
@@ -71,9 +71,14 @@ class TicketService
         return $event;
     }
 
-    public function getTickets(int $position = 0, int $limit = 8): array
+    /*public function getTickets(int $position = 0, int $limit = 8): array
     {
         return $this->ticketRepository->getAll($position, $limit);
+    }*/
+
+    public function getTickets(): array
+    {
+        return $this->ticketRepository->getAll();
     }
 
     public function findTicket(string $event_title, int $position = 0, int $limit = 8): array
@@ -81,7 +86,7 @@ class TicketService
         return $this->ticketRepository->find($event_title, $position, $limit);
     }
 
-    public function updateEvent(TicketStoreRequest $request): bool
+    public function updateTicket(TicketStoreRequest $request): bool
     {
         $this->validateTicketRequest($request);
 

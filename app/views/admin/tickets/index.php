@@ -89,10 +89,15 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php Flasher::flash(); ?>
+                </div>
+            </div>
             <div class="card">
                 <div class="d-flex justify-content-between">
                     <div class="card-header">Ticket Data</div>
-                    <button class="btn btn-primary m-4 px-4" data-bs-toggle="modal" data-bs-target="#ticketModal">Add</button>
+                    <button class="btn btn-primary m-4 px-4" onclick="openModal(0, 'Ticket')" data-bs-toggle="modal" data-bs-target="#ticketModal">Add</button>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover" id="adminTable">
@@ -107,6 +112,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($data['ticketData'] as $ticket) { ?>
+                                <tr>
+                                    <td><?= $ticket['event_title']; ?></td>
+                                    <td><?= $ticket['price']; ?></td>
+                                    <td><?= $ticket['stock']; ?></td>
+                                    <td><?= $ticket['type']; ?></td>
+                                    <td><?= $ticket['description']; ?></td>
+                                    <td>
+                                        <i class="badge-circle font-medium-1" data-feather="edit" onclick="openModal(<?= $ticket['id']; ?>, 'Ticket')" data-bs-toggle="modal" data-bs-target="#ticketModal"></i>
+                                        <a href="<?= BASE_URL ?>/dashboard/admin/ticket/delete/<?= $ticket['id']; ?>" onClick="javascript: return confirm('Are you sure want to delete ?');">
+                                            <i class="badge-circle font-medium-1" data-feather="trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -124,24 +144,42 @@
                     <i data-feather="x"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <p>
-                    Croissant jelly-o halvah chocolate sesame snaps. Brownie caramels candy
-                    canes chocolate cake
-                    marshmallow icing lollipop I love. Gummies macaroon donut caramels
-                    biscuit topping danish.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" class="btn btn-primary ml-1" data-bs-dismiss="modal">
-                    <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Submit</span>
-                </button>
-            </div>
+            <form method="POST">
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Submit</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    function openModal(id, page) {
+        if (id === 0) {
+            $('.modal-title').html('Add ' + page)
+            let url = '<?= BASE_URL ?>/dashboard/admin/' + page.toLowerCase() + '/store';
+
+            $.post(url, function(data, success) {
+                $('form').get(0).setAttribute('action', page.toLowerCase() + '/store');
+                $('.modal-body').html(data);
+            })
+        } else {
+            $('.modal-title').html('Edit ' + page)
+            let url = '<?= BASE_URL ?>/dashboard/admin/' + page.toLowerCase() + '/edit/' + id;
+
+            $.post(url, function(data, success) {
+                $('form').get(0).setAttribute('action', page.toLowerCase() + '/update/' + id);
+                $('.modal-body').html(data);
+            })
+        }
+    }
+</script>
