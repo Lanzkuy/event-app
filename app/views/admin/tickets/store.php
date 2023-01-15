@@ -15,10 +15,7 @@
 <label>Type</label>
 <select class="form-select mb-3" name="type">
     <option value="Reguler">Reguler</option>
-    <option value="Gold">Gold</option>
-    <option value="Platinum">Platinum</option>
     <option value="VIP">VIP</option>
-    <option value="VVIP">VVIP</option>
 </select>
 <label>Description</label>
 <div class="form-group">

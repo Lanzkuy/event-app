@@ -20,18 +20,9 @@
     <option <?php if ($data['editData']->type == 'Reguler') {
                 echo "selected";
             } ?> value="Reguler">Reguler</option>
-    <option <?php if ($data['editData']->type == 'Gold') {
-                echo "selected";
-            } ?> value="Gold">Gold</option>
-    <option <?php if ($data['editData']->type == 'Platinum') {
-                echo "selected";
-            } ?> value="Platinum">Platinum</option>
     <option <?php if ($data['editData']->type == 'VIP') {
                 echo "selected";
             } ?> value="VIP">VIP</option>
-    <option <?php if ($data['editData']->type == 'VVIP') {
-                echo "selected";
-            } ?> value="VVIP">VVIP</option>
 </select>
 <label>Description</label>
 <div class="form-group">
