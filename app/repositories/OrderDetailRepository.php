@@ -61,10 +61,11 @@ class OrderDetailRepository
         return $this->db->rowCount();
     }
 
-    public function checkTicket(int $ticket_id)
+    public function checkTicket(int $id, int $ticket_id)
     {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE ticket_id = :ticket_id');
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE ticket_id = :ticket_id AND id = :id');
         $this->db->bind('ticket_id', $ticket_id);
+        $this->db->bind('id', $id);
 
         return $this->db->rowCount();
     }
