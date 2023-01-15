@@ -15,6 +15,7 @@ class UserHomeController extends Controller
     private UserEventService $userEventService;
     private TicketService $ticketService;
     private OrderService $orderService;
+    private OrderDetailService $orderDetailService;
     private CategoryService $categoryService;
 
     public function __construct()
@@ -24,7 +25,6 @@ class UserHomeController extends Controller
         $this->orderService = $this->service('Order');
         $this->categoryService = $this->service('Category');
         $this->orderDetailService = $this->service('OrderDetail');
-
     }
 
     public function index()
@@ -40,17 +40,17 @@ class UserHomeController extends Controller
         $limit = 5;
         $page = $_GET['page'] ?? null;
         $search = $_GET['search'] ?? null;
-    
-        if(empty($page)){
-            $position = 0; 
+
+        if (empty($page)) {
+            $position = 0;
             $page = 1;
-        }else{
-            $position = ($page-1) * $limit;
+        } else {
+            $position = ($page - 1) * $limit;
         }
 
-        if($search){
+        if ($search) {
             $events = $this->userEventService->findAllEvent($search, $position, $limit);
-        }else{
+        } else {
             $events = $this->userEventService->getAllEvent($position, $limit);
         }
 
@@ -59,28 +59,27 @@ class UserHomeController extends Controller
 
         $order = $this->orderService->checkIfUserAlreadyOrder();
         $orderDetailCount = 0;
-        
-        if($order)
-        {
+
+        if ($order) {
             $orderDetailCount = $this->orderDetailService->countOrderDetail($order['id']);
         }
 
         $orders_id = [];
         $orders = $this->orderService->getOrderByStatus(2);
- 
-        foreach($orders as $order){
-             $orders_id[] = $order['id'];
+
+        foreach ($orders as $order) {
+            $orders_id[] = $order['id'];
         }
- 
+
         $orderDetailCount2 = 0;
- 
-        foreach($orders_id as $order_id){
-             $orderDetailCount2 += $this->orderDetailService->countOrderDetail($order_id);
+
+        foreach ($orders_id as $order_id) {
+            $orderDetailCount2 += $this->orderDetailService->countOrderDetail($order_id);
         }
 
         $eventCount = $this->userEventService->getRowEvent();
         $categories = $this->categoryService->getAllCategory();
-      
+
         $data['events'] = $events;
         $data['categories'] = $categories;
         $data['eventCount'] = $eventCount;
@@ -98,7 +97,7 @@ class UserHomeController extends Controller
 
     public function detail()
     {
-        try{
+        try {
             $id = $_GET['id'];
 
             $event = $this->userEventService->getEvent($id);
@@ -111,11 +110,8 @@ class UserHomeController extends Controller
             $this->view('templates/header', $data);
             $this->view('user/event/detail', $data);
             $this->view('templates/footer');
-
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             echo $ex->getMessage();
         }
     }
-
-
 }

@@ -44,7 +44,7 @@ class UserEventRepository
         $data = $this->db->fetch();
 
         if ($data == false) {
-            return null;
+            return [];
         }
 
         // $event = new Event;
