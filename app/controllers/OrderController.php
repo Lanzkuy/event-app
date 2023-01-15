@@ -62,36 +62,37 @@ class OrderController extends Controller
 
             $order2 = $this->orderService->checkIfUserAlreadyOrder();
 
-            $orderDetailStoreRequest = new OrderDetailStoreRequest;
-            $orderDetailStoreRequest->order_id = $order2['id'];
-            $orderDetailStoreRequest->ticket_id = $_POST['ticket_id'];
-            $orderDetailStoreRequest->ticket_amount = $_POST['ticket_amount'];
-            $orderDetailStoreRequest->ticket_price = $_POST['ticket_price'];
+            $orderDetailStoreRequest1 = new OrderDetailStoreRequest;
+            $orderDetailStoreRequest1->order_id = $order2['id'];
+            $orderDetailStoreRequest1->ticket_id = $_POST['ticket_id'];
+            $orderDetailStoreRequest1->ticket_amount = $_POST['ticket_amount'];
+            $orderDetailStoreRequest1->ticket_price = $_POST['ticket_price'];
 
             $orderDetails = $this->orderDetailService->getOrderDetailByOrderId($order2['id']);
 
-            if ($orderDetails) {
-                foreach ($orderDetails as $orderDetail) {
-                    $orderDetailRow = $this->orderDetailService->checkIfSameTicket($_POST['ticket_id']);
-
-                    if ($orderDetailRow == 1) {
-                        $orderDetailStoreRequest = new OrderDetailStoreRequest();
-                        $orderDetailStoreRequest->id = $orderDetail['id'];
-                        $orderDetailStoreRequest->ticket_amount = $_POST['ticket_amount'];
-                        $orderDetailStoreRequest->ticket_price = $_POST['ticket_price'];
-
-                        $this->orderDetailService->updateOrderDetail($orderDetailStoreRequest);
-                    } else {
-                        $this->orderDetailService->storeOrderDetail($orderDetailStoreRequest);
+            if(!$orderDetails){
+                $this->orderDetailService->storeOrderDetail($orderDetailStoreRequest1);
+            }else{
+                foreach($orderDetails as $orderDetail){
+                    if($orderDetail['ticket_id'] == $_POST['ticket_id']){
+                        $orderDetailStoreRequest2 = new OrderDetailStoreRequest();
+                        $orderDetailStoreRequest2->id = $orderDetail['id'];
+                        $orderDetailStoreRequest2->ticket_amount = $_POST['ticket_amount'];
+                        $orderDetailStoreRequest2->ticket_price = $_POST['ticket_price'];
+    
+                        $this->orderDetailService->updateOrderDetail($orderDetailStoreRequest2);
+                        break;
+                    }
+                    else{
+                        $this->orderDetailService->storeOrderDetail($orderDetailStoreRequest1);
                     }
                 }
-            } else {
-                $this->orderDetailService->storeOrderDetail($orderDetailStoreRequest);
-            }
+            }   
 
             $this->ticketService->updateQtyTicket($_POST['ticket_id'], $_POST['ticket_amount']);
 
-            header('Location: ' . BASE_URL . '/home/detail?id=' . $_POST["event_id"]);
+            header('Location: ' . BASE_URL . '/userhome/detail?id=' . $_POST["event_id"]);
+
         } catch (Exception $ex) {
             Flasher::setFlash($ex->getMessage(), 'danger');
         }
