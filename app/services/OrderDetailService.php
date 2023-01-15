@@ -68,9 +68,9 @@ class OrderDetailService
         return $this->orderDetailRepository->update($orderDetail);
     }
 
-    public function checkIfSameTicket(int $ticket_id)
+    public function checkIfSameTicket(int $id, int $ticket_id)
     {
-        return $this->orderDetailRepository->checkTicket($ticket_id);
+        return $this->orderDetailRepository->checkTicket($id, $ticket_id);
     }
 
     public function getOrderDetailSameTicket(int $ticket_id, int $order_id)
