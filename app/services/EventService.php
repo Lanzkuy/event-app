@@ -19,7 +19,7 @@ class EventService
 
     public function validateUploadImage(EventStoreRequest $request, string $imageFileType, string $target_file): void
     {
-        if ($request->image_size > 200000) {
+        if ($request->image_size > 200000) {    
             throw new InputValidationException('Image too large.');
         }
 
@@ -211,7 +211,7 @@ class EventService
 
     public function uploadImage(EventStoreRequest $request, int $time): void
     {
-        $target_dir = DOCUMENT_ROOT . '/assets/img/events/';
+        $target_dir = DOCUMENT_ROOT . '/assets/images/events/';
         $target_file = $target_dir . basename($time . strtolower($request->image_name));
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
