@@ -7,6 +7,7 @@ use App\Core\Controller;
 class DashboardController extends Controller
 {
     private UserController $userController;
+    private UserHomeController $userHomeController;
     private EventController $eventController;
     private TicketController $ticketController;
     private OrderController $orderController;
@@ -14,6 +15,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->userController = new UserController;
+        $this->userHomeController = new UserHomeController;
         $this->eventController = new EventController;
         $this->ticketController = new TicketController;
         $this->orderController = new OrderController;
@@ -29,10 +31,9 @@ class DashboardController extends Controller
             }
         }
 
-        $data['title'] = 'Dashboard';
-        $this->view('templates/header', $data);
-        $this->view('dashboard/index');
-        $this->view('templates/footer');
+        if($param1 == "index"){
+            $this->userHomeController->index();
+        }
     }
 
     public function admin(string $param1 = 'index', string $param2 = 'index', string $param3 = '')
