@@ -37,8 +37,17 @@ class LoginController extends Controller
     {
         try {
             $captchaCode = $_POST['captcha'];
-            if(!$this->captchaController->validateCaptcha($captchaCode)) {
+
+            if (empty($captchaCode)) {
+                Flasher::setFlash('Captcha field must be filled', 'danger');
+                echo "<script>location.href = '" . BASE_URL . "/';</script>";
+                return;
+            }
+
+            if (!$this->captchaController->validateCaptcha($captchaCode)) {
                 Flasher::setFlash('Captcha code was wrong', 'danger');
+                echo "<script>location.href = '" . BASE_URL . "/';</script>";
+                return;
             }
 
             $userLoginRequest = new UserLoginRequest;
@@ -58,15 +67,8 @@ class LoginController extends Controller
             $roleValidationMiddleware->handle();
         } catch (Exception $ex) {
             Flasher::setFlash($ex->getMessage(), 'danger');
+            echo "<script>location.href = '" . BASE_URL . "/';</script>";
+            return;
         }
-        
-        $this->back();
-    }
-
-    private function back()
-    {
-        echo "<script>location.href = '" . BASE_URL . "/';</script>";
-
-        return;
     }
 }

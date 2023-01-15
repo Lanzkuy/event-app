@@ -138,7 +138,6 @@ class UserController extends Controller
     private function back()
     {
         echo "<script>location.href = '" . BASE_URL . "/dashboard/admin/user';</script>";
-
         return;
     }
 }

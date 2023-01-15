@@ -35,11 +35,11 @@ class CaptchaController
 
     function createCaptchaImage($captcha_code)
     {
-        $layer = imagecreatetruecolor(72, 28);
-        $background = imagecolorallocate($layer, 204, 204, 204);
+        $layer = imagecreatetruecolor(100, 60);
+        $background = imagecolorallocate($layer, 255, 255, 255);
         imagefill($layer, 0, 0, $background);
         $text_color = imagecolorallocate($layer, 0, 0, 0);
-        imagestring($layer, 5, 10, 5, $captcha_code, $text_color);
+        imagestring($layer, 5, 25, 20, $captcha_code, $text_color);
         return $layer;
     }
 
