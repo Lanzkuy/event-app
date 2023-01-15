@@ -12,4 +12,4 @@
     <title>Event App - <?= $data['title']; ?></title>
 </head>
 
-<body class="theme-dark" style="overflow-y:hidden;">
+<body class="theme-dark">
