@@ -133,6 +133,7 @@
             </div>
         </form>
         <hr>
+        <?php if($data['ticketReguler'] != false && $data['ticketVIP'] != false){ ?>
         <form enctype="multipart/form-data" method="post" action="./updateTicket">
             <div class="row">
                 <div class="col-6">
@@ -205,6 +206,7 @@
             </div>
         </form>
         <hr>
+        <?php } ?>
 
     </div>
 </div>
