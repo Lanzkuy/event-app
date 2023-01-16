@@ -36,6 +36,7 @@ class RegisterController extends Controller
 
             $this->userService->register($userRegisterRequest);
 
+            Flasher::setFlash('Register success', 'success');
             header('Location: ' . BASE_URL . '/');
 
         } catch (Exception $ex) {
