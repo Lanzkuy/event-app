@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card rounded-4">
-                        <img src="../assets/img/events/<?=$data['event']['image'] ?>" class="img-fluid rounded-4 img-thumbnail" id="preview_img" alt="preview_img">
+                        <img src="../assets/images/events/<?=$data['event']['image'] ?>" class="img-fluid rounded-4 img-thumbnail" id="preview_img" alt="preview_img">
                     </div>
                 </div>
                 <div class="col-md-6">

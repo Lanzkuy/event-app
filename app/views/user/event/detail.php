@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="card">
-                        <img src="../assets/img/events/<?= $data['event']['image'] ?>" alt="" class="img-fluid rounded-4 img-thumbnail" loading="lazy">
+                        <img src="../assets/images/events/<?= $data['event']['image'] ?>" alt="" class="img-fluid rounded-4 img-thumbnail" loading="lazy">
                 </div>
             </div>
             <div class="col-6">

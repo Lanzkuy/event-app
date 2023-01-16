@@ -196,7 +196,7 @@ class UserEventService
 
     public function uploadImage(UserEventStoreRequest $request, int $time): void
     {
-        $target_dir = DOCUMENT_ROOT . '/assets/img/events/';
+        $target_dir = DOCUMENT_ROOT . '/assets/images/events/';
         $target_file = $target_dir . basename($time . strtolower($request->image_name));
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 

@@ -55,7 +55,7 @@
                     <div class="col-4">
                         <div class="card rounded-4">
                         <div class="card-body">
-                            <img src="./assets/img/events/<?=$event['image']?>" alt="" class="img-fluid rounded-4">
+                            <img src="./assets/images/events/<?=$event['image']?>" alt="" class="img-fluid rounded-4">
                             <div class="row mt-2">
                                 <h5><b><?= $event['title'] ?><br></b></h5>
                             </div>
@@ -73,7 +73,7 @@
                 <?php } ?>
             <?php }else{ ?>
                 <div class="text-center">
-                no data
+                No Event
                 </div>
             <?php } ?>
         </div>

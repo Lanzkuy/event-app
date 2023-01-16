@@ -58,7 +58,7 @@
                     <?php foreach($data['orderDetails'] as $orderDetail){?>
                         <tr>
                             <td>
-                                <img src="./assets/img/events/<?=$orderDetail['event_image']?>" alt="" width="150" height="100"><br><br>
+                                <img src="./assets/images/events/<?=$orderDetail['event_image']?>" alt="" width="150" height="100"><br><br>
                                 <?= $orderDetail['event_title'] ?>
                             </td>
                             <td><?= $orderDetail['ticket_type'] ?></td>
@@ -91,7 +91,7 @@
             </table>
         <?php }else {?>
             <div class="text-center">
-                no order
+                No Order
             </div>
         <?php } ?>
     </div>

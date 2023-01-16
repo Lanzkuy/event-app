@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card rounded-4">
-                        <img class="img-fluid rounded-4 img-thumbnail" id="preview_img" alt="preview_img">
+                        <img class="img-fluid rounded-4 img-thumbnail" id="preview_img" alt="Preview Image">
                     </div>
                 </div>
                 <div class="col-md-6">

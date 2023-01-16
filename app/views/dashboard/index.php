@@ -18,7 +18,7 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="<?= BASE_URL ?>/userevent">Event (<?= $data['eventCount'] ?>)</a>
+                            <a class="nav-link text-white" href="<?= BASE_URL ?>/userevent">My Event (<?= $data['eventCount'] ?>)</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="./cart">Cart (<?= $data['orderDetailCount'] ?>)</a>
@@ -52,20 +52,7 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <h4>Category</h4>
-            <?php foreach($data['categories'] as $category){?>
-                <div class="col-2 mt-4">
-                <div class="card rounded-4">
-                    <div class="card-body text-center">
-                        <?= $category['name'] ?>
-                    </div>
-                </div>
-                </div>
-            <?php } ?>
-        </div>
-
-        <div class="row mt-4">
+        <div class="row mt-5">
                 <div class="col-9">
                     <h2>Latest Event</h2>
                 </div>
@@ -83,7 +70,7 @@
                         <div class="col-4 mt-4">    
                             <div class="card rounded-4">
                                 <div class="card-body">
-                                    <img src="./assets/img/events/<?=$event['image']?>" alt="" class="img-fluid rounded-4" loading="lazy">
+                                    <img src="./assets/images/events/<?=$event['image']?>" alt="" class="img-fluid rounded-4" loading="lazy">
                                     <div class="row mt-2">
                                         <h5><b><?= $event['title'] ?><br></b></h5>
                                     </div>
@@ -98,7 +85,7 @@
                     <?php } ?>
                 <?php }else{ ?>
                     <div class="text-center">
-                    no event
+                    No Event
                     </div>
                     <?php } ?>
             </div>
