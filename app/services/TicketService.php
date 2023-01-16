@@ -71,11 +71,6 @@ class TicketService
         return $event;
     }
 
-    public function getTicketByType(string $type, int $event_id)
-    {
-        return $this->ticketRepository->getByType($type, $event_id);
-    }
-
     /*public function getTickets(int $position = 0, int $limit = 8): array
     {
         return $this->ticketRepository->getAll($position, $limit);
@@ -89,11 +84,6 @@ class TicketService
     public function findTicket(string $event_title, int $position = 0, int $limit = 5): array
     {
         return $this->ticketRepository->find($event_title, $position, $limit);
-    }
-
-    public function updateQtyTicket(int $id, int $qty)
-    {
-        return $this->ticketRepository->updateQty($id, $qty);
     }
 
     public function updateTicket(TicketStoreRequest $request): bool
@@ -120,12 +110,17 @@ class TicketService
         return $this->ticketRepository->delete($event_id);
     }
 
+    public function getRowCount() : int {
+        return $this->ticketRepository->getRowCount();
+    }
+
     public function getTicketByEventId(int $event_id): array
     {
         return $this->ticketRepository->getByEventId($event_id);
     }
 
-    public function getRowCount() : int {
-        return $this->ticketRepository->getRowCount();
+    public function updateQtyTicket(int $id, int $qty)
+    {
+        return $this->ticketRepository->updateQty($id, $qty);
     }
 }

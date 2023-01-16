@@ -98,16 +98,6 @@ class EventService
         }
     }
 
-    public function getAllEvent(int $position = 0, int $limit = 5): array
-    {
-        return $this->eventRepository->getAllEvent($position, $limit);
-    }
-
-    public function findAllEvent(string $title, int $position = 0, int $limit = 5):array
-    {
-        return $this->eventRepository->findAllEvent($title, $position, $limit);
-    }
-
     public function storeEvent(EventStoreRequest $request): bool
     {
         $time = time();
@@ -158,11 +148,6 @@ class EventService
     public function findEvent(string $title, int $position = 0, int $limit = 5): array
     {
         return $this->eventRepository->find($title, $position, $limit);
-    }
-
-    public function getRowEvent()
-    {
-        return $this->eventRepository->getRow();
     }
 
     public function updateEvent(EventStoreRequest $request): bool
@@ -216,11 +201,6 @@ class EventService
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
         $this->validateUploadImage($request, $imageFileType, $target_file);
-    }
-
-    public function paginateEvent(?string $title): int
-    {
-        return $this->eventRepository->paginate($title);
     }
 
     public function getRowCount() : int {

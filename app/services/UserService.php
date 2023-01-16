@@ -15,6 +15,7 @@ use App\Repositories\UserRepository;
 class UserService
 {
     private UserRepository $userRepository;
+    
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -246,6 +247,10 @@ class UserService
         return $delete;
     }
 
+    public function getRowCount() : int {
+        return $this->userRepository->getRowCount();
+    }
+
     public function changePassword(string $old_password, string $new_password, string $confirm_password): bool
     {
         $this->validateChangePasswordRequest($old_password, $new_password, $confirm_password);
@@ -257,9 +262,5 @@ class UserService
         }
 
         return $change_password;
-    }
-
-    public function getRowCount() : int {
-        return $this->userRepository->getRowCount();
     }
 }

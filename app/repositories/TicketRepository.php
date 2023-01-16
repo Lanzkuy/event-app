@@ -50,15 +50,6 @@ class TicketRepository
         return $ticket;
     }
 
-    public function getByType(string $type, int $event_id)
-    {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE event_id = :event_id AND type = :type');
-        $this->db->bind('event_id', $event_id);
-        $this->db->bind('type', $type);
-
-        return $this->db->fetch();
-    }
-
     /*public function getAll(int $position, int $limit): array
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET stock = stock - :qty WHERE id = :id');
@@ -96,15 +87,6 @@ class TicketRepository
         return $this->db->execute();
     }
 
-    public function updateQty(int $id, int $qty)
-    {
-        $this->db->query('UPDATE ' . self::db_name . ' SET stock = stock - :qty WHERE id = :id');
-        $this->db->bind('qty', $qty);
-        $this->db->bind('id', $id);
-
-        return $this->db->execute();
-    }
-
     public function delete(int $event_id): bool
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET deleted_at = :deleted_at WHERE event_id = :event_id');
@@ -112,6 +94,13 @@ class TicketRepository
         $this->db->bind('deleted_at', date('y-m-d h:m:s', time()));
 
         return $this->db->execute();
+    }
+
+    public function getRowCount() : int
+    {
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+
+        return $this->db->rowCount();
     }
     
     public function getByEventId(int $event_id): array
@@ -121,10 +110,12 @@ class TicketRepository
         return $this->db->fetchAll();
     }
 
-    public function getRowCount() : int
+    public function updateQty(int $id, int $qty)
     {
-        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE deleted_at is null');
+        $this->db->query('UPDATE ' . self::db_name . ' SET stock = stock - :qty WHERE id = :id');
+        $this->db->bind('qty', $qty);
+        $this->db->bind('id', $id);
 
-        return $this->db->rowCount();
+        return $this->db->execute();
     }
 }

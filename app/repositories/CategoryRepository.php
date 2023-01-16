@@ -16,7 +16,7 @@ class CategoryRepository
 
     public function get(int $id): array
     {
-        $this->db->query('SELECT * FROM ' . self::db_name .' WHERE id = :id');
+        $this->db->query('SELECT * FROM ' . self::db_name . ' WHERE id = :id');
         $this->db->bind('id', $id);
         return $this->db->fetch();
     }
@@ -26,5 +26,4 @@ class CategoryRepository
         $this->db->query('SELECT * FROM ' . self::db_name);
         return $this->db->fetchAll();
     }
-
 }
