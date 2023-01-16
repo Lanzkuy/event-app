@@ -62,6 +62,11 @@ class UserTicketService
         return $this->userTicketRepository->updateQty($id, $qty);
     }
 
+    public function addQtyTicket(int $id, int $qty)
+    {
+        return $this->userTicketRepository->addQty($id, $qty);
+    }
+
     public function updateTicket(TicketStoreRequest $request): bool
     {
         $this->validateTicketRequest($request);

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\UserTicketService;
 use Exception;
 use App\Core\Controller;
 use App\Services\OrderService;
@@ -12,11 +13,13 @@ class CartController extends Controller
 {
     private OrderService $orderService;
     private OrderDetailService $orderDetailService;
+    private UserTicketService $userTicketService;
 
     public function __construct()
     {
         $this->orderService = $this->service('Order');
         $this->orderDetailService = $this->service('OrderDetail');
+        $this->userTicketService = $this->service('UserTicket');
     }
 
     public function index()
@@ -56,6 +59,9 @@ class CartController extends Controller
             } else {
                 $this->orderService->updateDataOrder($orderDetailStoreRequest);
             }
+
+            $orderDetail2 = $this->orderDetailService->getOrderDetailById($orderDetail_id);
+            $this->userTicketService->addQtyTicket($orderDetail2['ticket_id'], $orderDetail2['qty']);
 
             $this->orderDetailService->deleteOrderDetail($orderDetail_id);
 

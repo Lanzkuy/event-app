@@ -45,6 +45,15 @@ class UserTicketRepository
         return $this->db->execute();
     }
 
+    public function addQty(int $id, int $qty)
+    {
+        $this->db->query('UPDATE ' . self::db_name . ' SET stock = stock + :qty WHERE id = :id');
+        $this->db->bind('qty', $qty);
+        $this->db->bind('id', $id);
+
+        return $this->db->execute();
+    }
+
     public function update(Ticket $ticket): bool
     {
         $this->db->query('UPDATE ' . self::db_name . ' SET price = :price, stock = :stock, description = :description WHERE id = :id');
