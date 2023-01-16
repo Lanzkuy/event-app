@@ -61,11 +61,10 @@ class TicketController extends Controller
 
     public function edit(int $id)
     {
-        try{
+        try {
             $data['editData'] = $this->ticketService->getTicket($id);
             $data['eventData'] = $this->eventService->getEvents();
             $this->view('admin/tickets/edit', $data);
-
         } catch (Exception $ex) {
             Flasher::setFlash($ex->getMessage(), 'danger');
         }

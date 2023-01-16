@@ -31,7 +31,7 @@ class DashboardController extends Controller
             }
         }
 
-        if($param1 == "index"){
+        if ($param1 == "index") {
             $this->userHomeController->index();
         }
     }
@@ -64,23 +64,23 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'user') {
-            if($param2 == 'index') {
+            if ($param2 == 'index') {
                 $this->userController->index();
             }
 
-            if($param2 == 'store') {
+            if ($param2 == 'store') {
                 $this->userController->store();
             }
 
-            if($param2 == 'edit') {
+            if ($param2 == 'edit') {
                 $this->userController->edit($param3);
             }
 
-            if($param2 == 'update') {
+            if ($param2 == 'update') {
                 $this->userController->update();
             }
 
-            if($param2 == 'delete') {
+            if ($param2 == 'delete') {
                 $this->userController->delete($param3);
             }
 
@@ -88,23 +88,23 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'event') {
-            if($param2 == 'index') {
+            if ($param2 == 'index') {
                 $this->eventController->index();
             }
 
-            if($param2 == 'store') {
+            if ($param2 == 'store') {
                 $this->eventController->store();
             }
 
-            if($param2 == 'edit') {
+            if ($param2 == 'edit') {
                 $this->eventController->edit($param3);
             }
 
-            if($param2 == 'update') {
+            if ($param2 == 'update') {
                 $this->eventController->update();
             }
 
-            if($param2 == 'delete') {
+            if ($param2 == 'delete') {
                 $this->eventController->delete($param3);
             }
 
@@ -112,23 +112,23 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'ticket') {
-            if($param2 == 'index') {
+            if ($param2 == 'index') {
                 $this->ticketController->index();
             }
 
-            if($param2 == 'store') {
+            if ($param2 == 'store') {
                 $this->ticketController->store();
             }
 
-            if($param2 == 'edit') {
+            if ($param2 == 'edit') {
                 $this->ticketController->edit($param3);
             }
 
-            if($param2 == 'update') {
+            if ($param2 == 'update') {
                 $this->ticketController->update();
             }
 
-            if($param2 == 'delete') {
+            if ($param2 == 'delete') {
                 $this->ticketController->delete($param3);
             }
 
@@ -136,15 +136,15 @@ class DashboardController extends Controller
         }
 
         if ($param1 == 'order') {
-            if($param2 == 'index') {
+            if ($param2 == 'index') {
                 $this->orderController->index();
             }
 
-            if($param2 == 'detail') {
+            if ($param2 == 'detail') {
                 $this->orderController->index($param3);
             }
 
-            if($param2 == 'delete') {
+            if ($param2 == 'delete') {
                 $this->orderController->delete($param3);
             }
             return;

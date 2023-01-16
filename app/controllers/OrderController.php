@@ -70,29 +70,27 @@ class OrderController extends Controller
 
             $orderDetails = $this->orderDetailService->getOrderDetailByOrderId($order2['id']);
 
-            if(!$orderDetails){
+            if (!$orderDetails) {
                 $this->orderDetailService->storeOrderDetail($orderDetailStoreRequest1);
-            }else{
-                foreach($orderDetails as $orderDetail){
-                    if($orderDetail['ticket_id'] == $_POST['ticket_id']){
+            } else {
+                foreach ($orderDetails as $orderDetail) {
+                    if ($orderDetail['ticket_id'] == $_POST['ticket_id']) {
                         $orderDetailStoreRequest2 = new OrderDetailStoreRequest();
                         $orderDetailStoreRequest2->id = $orderDetail['id'];
                         $orderDetailStoreRequest2->ticket_amount = $_POST['ticket_amount'];
                         $orderDetailStoreRequest2->ticket_price = $_POST['ticket_price'];
-    
+
                         $this->orderDetailService->updateOrderDetail($orderDetailStoreRequest2);
                         break;
-                    }
-                    else{
+                    } else {
                         $this->orderDetailService->storeOrderDetail($orderDetailStoreRequest1);
                     }
                 }
-            }   
+            }
 
             $this->ticketService->updateQtyTicket($_POST['ticket_id'], $_POST['ticket_amount']);
 
             header('Location: ' . BASE_URL . '/userhome/detail?id=' . $_POST["event_id"]);
-
         } catch (Exception $ex) {
             Flasher::setFlash($ex->getMessage(), 'danger');
         }

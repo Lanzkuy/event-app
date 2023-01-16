@@ -9,6 +9,7 @@ use App\Services\CategoryService;
 use App\Models\TicketStoreRequest;
 use App\Services\UserTicketService;
 use App\Models\UserEventStoreRequest;
+use Flasher;
 
 class UserEventController extends Controller
 {
@@ -28,23 +29,23 @@ class UserEventController extends Controller
         $limit = 5;
         $page = $_GET['page'] ?? null;
         $search = $_GET['search'] ?? null;
-    
-        if(empty($page)){
-            $position = 0; 
+
+        if (empty($page)) {
+            $position = 0;
             $page = 1;
-        }else{
-            $position = ($page-1) * $limit;
+        } else {
+            $position = ($page - 1) * $limit;
         }
 
-        if($search){
+        if ($search) {
             $events = $this->userEventService->findEvent($search, $position, $limit);
-        }else{
+        } else {
             $events = $this->userEventService->getEvents($position, $limit);
         }
 
         $row = $this->userEventService->paginateEvent($search);
         $numberOfPages = ceil($row / $limit);
-        
+
         $data['events'] = $events;
         $data['numberOfPages'] = $numberOfPages;
         $data['page'] = $page;
@@ -90,7 +91,7 @@ class UserEventController extends Controller
             $ticketStoreRequest1->stock = $_POST['reguler_stock'];
             $ticketStoreRequest1->type = 'Reguler';
             $ticketStoreRequest1->description = $_POST['reguler_description'];
-            
+
             $this->userTicketService->storeTicket($ticketStoreRequest1);
 
             $ticketStoreRequest2 = new TicketStoreRequest;
@@ -99,19 +100,20 @@ class UserEventController extends Controller
             $ticketStoreRequest2->stock = $_POST['vip_stock'];
             $ticketStoreRequest2->type = 'VIP';
             $ticketStoreRequest2->description = $_POST['vip_description'];
-            
+
             $this->userTicketService->storeTicket($ticketStoreRequest2);
 
             header('Location: ' . BASE_URL . '/userevent');
-
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
+            echo "<script>location.href = '" . BASE_URL . "/userevent/create';</script>";
+            return;
         }
     }
 
     public function edit()
     {
-        try{
+        try {
             $id = $_GET['id'];
             $event = $this->userEventService->getEvent($id);
             $categories = $this->categoryService->getAllCategory();
@@ -128,9 +130,10 @@ class UserEventController extends Controller
             $this->view('templates/header', $data);
             $this->view('user/event/edit', $data);
             $this->view('templates/footer');
-
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
+            echo "<script>location.href = '" . BASE_URL . "/userevent';</script>";
+            return;
         }
     }
 
@@ -153,9 +156,10 @@ class UserEventController extends Controller
             $this->userEventService->updateEvent($eventStoreRequest);
 
             header('Location: ' . BASE_URL . '/userevent');
-
         } catch (Exception $ex) {
-           echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
+            echo "<script>location.href = '" . BASE_URL . "/userevent';</script>";
+            return;
         }
     }
 
@@ -168,7 +172,7 @@ class UserEventController extends Controller
             $ticketStoreRequest1->price = $_POST['reguler_price'];
             $ticketStoreRequest1->stock = $_POST['reguler_stock'];
             $ticketStoreRequest1->description = $_POST['reguler_description'];
-            
+
             $this->userTicketService->updateTicket($ticketStoreRequest1);
 
             $ticketStoreRequest2 = new TicketStoreRequest;
@@ -176,27 +180,26 @@ class UserEventController extends Controller
             $ticketStoreRequest2->price = $_POST['vip_price'];
             $ticketStoreRequest2->stock = $_POST['vip_stock'];
             $ticketStoreRequest2->description = $_POST['vip_description'];
-            
+
             $this->userTicketService->updateTicket($ticketStoreRequest2);
 
             header('Location: ' . BASE_URL . '/userevent');
-
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
+            echo "<script>location.href = '" . BASE_URL . "/userevent';</script>";
+            return;
         }
     }
 
     public function delete()
     {
-        try{
+        try {
             $id = $_GET['id'];
             $this->userEventService->deleteEvent($id);
             $this->userTicketService->deleteTicket($id);
             header('Location: ' . BASE_URL . '/userevent');
-
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
         }
     }
-
 }

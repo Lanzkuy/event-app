@@ -1,47 +1,52 @@
 <div id="app ">
     <nav class="navbar navbar-expand-md navbar-light">
-            <div class="container">
-                <a class="navbar-brand text-white" href="<?= BASE_URL ?>/dashboard">
-                    E-Event
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <div class="container">
+            <a class="navbar-brand text-white" href="<?= BASE_URL ?>/dashboard">
+                E-Event
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
 
-                    </ul>
+                </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <?= $_SESSION['user_session']['name']?>
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <?= $_SESSION['user_session']['name'] ?>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="<?= BASE_URL ?>/dashboard/logout">
+                                Logout
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<?= BASE_URL ?>/dashboard/logout">
-                                    Logout
-                                </a>
-
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
+        </div>
     </nav>
 </div>
 <div class="main mt-4">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <?php Flasher::flash(); ?>
+            </div>
+        </div>
         <div class="row">
             <div class="col-9">
                 <h2>Cart</h2>
             </div>
         </div>
         <hr>
-        <?php if($data['order']){ ?>
+        <?php if ($data['order']) { ?>
             <table class="table text-center">
                 <thead>
                     <tr>
@@ -55,16 +60,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($data['orderDetails'] as $orderDetail){?>
+                    <?php foreach ($data['orderDetails'] as $orderDetail) { ?>
                         <tr>
                             <td>
-                                <img src="./assets/images/events/<?=$orderDetail['event_image']?>" alt="" width="150" height="100"><br><br>
+                                <img src="./assets/images/events/<?= $orderDetail['event_image'] ?>" alt="" width="150" height="100"><br><br>
                                 <?= $orderDetail['event_title'] ?>
                             </td>
                             <td><?= $orderDetail['ticket_type'] ?></td>
-                            <td>Rp<?= number_format($orderDetail['ticket_price'])?></td>
-                            <td><?= $orderDetail['qty']?></td>
-                            <td>Rp<?= number_format($orderDetail['total_price'])?></td>
+                            <td>Rp<?= number_format($orderDetail['ticket_price']) ?></td>
+                            <td><?= $orderDetail['qty'] ?></td>
+                            <td>Rp<?= number_format($orderDetail['total_price']) ?></td>
                             <td><?= $data['order']['status'] ?></td>
                             <td>
                                 <form action="./cart/delete" method="post">
@@ -74,25 +79,25 @@
                                 </form>
                             </td>
                         </tr>
-                        <?php } ?>
-                        <tr class="text-center">
-                            <td colspan="7" align="right">Total Price : <b>Rp<?= number_format($data['order']['total_price']) ?></b></td>
-                            <tr>
-                                <td colspan="7" align="right">
-                                    <form action="./cart/checkout" method="post">
-                                        <input type="hidden" name="order_id" value="<?= $data['order']['id'] ?>">
-                                        <button type="submit" class="btn btn-sm btn-success">checkout</button>
-                                    </form>
-                                </td>
-                                 
-                            </tr>
-                        </tr>
+                    <?php } ?>
+                    <tr class="text-center">
+                        <td colspan="7" align="right">Total Price : <b>Rp<?= number_format($data['order']['total_price']) ?></b></td>
+                    <tr>
+                        <td colspan="7" align="right">
+                            <form action="./cart/checkout" method="post">
+                                <input type="hidden" name="order_id" value="<?= $data['order']['id'] ?>">
+                                <button type="submit" class="btn btn-sm btn-success">checkout</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                    </tr>
                 </tbody>
             </table>
-        <?php }else {?>
+        <?php } else { ?>
             <div class="text-center">
                 No Order
             </div>
         <?php } ?>
     </div>
-</div>   
+</div>

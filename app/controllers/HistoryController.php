@@ -20,21 +20,19 @@ class HistoryController extends Controller
 
     public function index()
     {
-       $ordersArray = [];
-       $orders = $this->orderService->getOrderByStatus(2);
+        $ordersArray = [];
+        $orders = $this->orderService->getOrderByStatus(2);
 
-       $orderDetails = [];
-       foreach($orders as $order){
+        $orderDetails = [];
+        foreach ($orders as $order) {
             $orderDetails[] = $this->orderDetailService->getOrderDetailByOrderId($order['id']);
-       }
+        }
 
-       $data['title'] = 'List Ordered Tickets';
-       $data['orderDetail'] = $orderDetails;
+        $data['title'] = 'List Ordered Tickets';
+        $data['orderDetail'] = $orderDetails;
 
-       $this->view('templates/header', $data);
-       $this->view('user/history/index', $data);
-       $this->view('templates/footer');
-
+        $this->view('templates/header', $data);
+        $this->view('user/history/index', $data);
+        $this->view('templates/footer');
     }
-        
 }

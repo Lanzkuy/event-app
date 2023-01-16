@@ -22,9 +22,8 @@ class CartController extends Controller
     public function index()
     {
         $order = $this->orderService->checkIfUserAlreadyOrder();
-        
-        if($order)
-        {
+
+        if ($order) {
             $orderDetails = $this->orderDetailService->getOrderDetailByOrderId($order['id']);
         }
 
@@ -39,12 +38,12 @@ class CartController extends Controller
 
     public function delete()
     {
-        try{
+        try {
             $orderDetail_id = $_POST['orderDetail_id'];
             $order_id = $_POST['order_id'];
 
             $orderDetail = $this->orderDetailService->getOneOrderDetailByOrderId($order_id);
-            
+
             $orderDetailStoreRequest = new OrderDetailStoreRequest;
             $orderDetailStoreRequest->order_id = $order_id;
             $orderDetailStoreRequest->qty = $orderDetail['qty'];
@@ -52,16 +51,15 @@ class CartController extends Controller
 
             $countOrderDetail = $this->orderDetailService->countOrderDetail($order_id);
 
-            if($countOrderDetail == 1){
+            if ($countOrderDetail == 1) {
                 $this->orderService->deleteOrder($order_id);
-            }else{
+            } else {
                 $this->orderService->updateDataOrder($orderDetailStoreRequest);
             }
 
             $this->orderDetailService->deleteOrderDetail($orderDetail_id);
 
             header('Location: ' . BASE_URL . '/cart');
-
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }
@@ -75,10 +73,8 @@ class CartController extends Controller
             $this->orderService->updateStatusOrder($order_id);
 
             header('Location:' . BASE_URL . '/history');
-
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }
     }
-
 }

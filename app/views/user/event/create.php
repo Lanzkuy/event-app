@@ -1,41 +1,39 @@
 <div id="app ">
     <nav class="navbar navbar-expand-md navbar-light">
-            <div class="container">
-                <a class="navbar-brand text-white" href="<?= BASE_URL ?>/dashboard">
-                    E-Event
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <div class="container">
+            <a class="navbar-brand text-white" href="<?= BASE_URL ?>/dashboard">
+                E-Event
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <?= $_SESSION['user_session']['name'] ?>
+                        </a>
 
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <?= $_SESSION['user_session']['name']?>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="<?= BASE_URL ?>/dashboard/logout">
-                                       Logout
-                                    </a>
-
-                                </div>
-                            </li>
-                        
-                    </ul>
-                </div>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="<?= BASE_URL ?>/dashboard/logout">
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
             </div>
+        </div>
     </nav>
 </div>
 <div class="main mt-4">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <?php Flasher::flash(); ?>
+            </div>
+        </div>
         <div class="row">
             <div class="col-9">
                 <h2>Add Event</h2><a href="../userevent"> Back</a>
@@ -59,7 +57,7 @@
                                     <td>
                                         <select name="category_id" class="rounded-3 form-control form-select">
                                             <option value="0" selected>--- Select Category ---</option>
-                                            <?php foreach($data['categories'] as $data){ ?>
+                                            <?php foreach ($data['categories'] as $data) { ?>
                                                 <option value="<?= $data['id'] ?>" required><?= $data['name'] ?></option>
                                             <?php } ?>
                                         </select>
@@ -111,7 +109,7 @@
                                     </td>
                                 </tr>
                                 <script>
-                                    let loadFile = function(event){
+                                    let loadFile = function(event) {
                                         let output = document.getElementById('preview_img');
                                         output.src = URL.createObjectURL(event.target.files[0]);
                                     };
@@ -180,4 +178,4 @@
         <hr>
 
     </div>
-</div>   
+</div>

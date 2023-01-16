@@ -1,41 +1,46 @@
 <div id="app ">
     <nav class="navbar navbar-expand-md navbar-light">
-            <div class="container">
-                <a class="navbar-brand text-white" href="<?= BASE_URL ?>/dashboard">
-                    E-Event
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <div class="container">
+            <a class="navbar-brand text-white" href="<?= BASE_URL ?>/dashboard">
+                E-Event
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
 
-                    </ul>
+                </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    <?= $_SESSION['user_session']['name']?>
-                                </a>
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <?= $_SESSION['user_session']['name'] ?>
+                        </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="<?= BASE_URL ?>/dashboard/logout">
-                                       Logout
-                                    </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="<?= BASE_URL ?>/dashboard/logout">
+                                Logout
+                            </a>
 
-                                </div>
-                            </li>
-                        
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+
+                </ul>
             </div>
+        </div>
     </nav>
 </div>
 <div class="main mt-4">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <?php Flasher::flash(); ?>
+            </div>
+        </div>
         <div class="row">
             <div class="col-9">
                 <h2>Edit Event</h2><a href="../userevent"> Back</a>
@@ -48,7 +53,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card rounded-4">
-                        <img src="../assets/images/events/<?=$data['event']['image'] ?>" class="img-fluid rounded-4 img-thumbnail" id="preview_img" alt="preview_img">
+                        <img src="../assets/images/events/<?= $data['event']['image'] ?>" class="img-fluid rounded-4 img-thumbnail" id="preview_img" alt="preview_img">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -61,7 +66,7 @@
                                     <td>
                                         <select name="category_id" class="rounded-3 form-control form-select">
                                             <option value="0" selected>--- Select Category ---</option>
-                                            <?php foreach($data['categories'] as $category){ ?>
+                                            <?php foreach ($data['categories'] as $category) { ?>
                                                 <option class="form-control" value="<?= $category['id'] ?>" <?= $data['event']['category_id'] == $category['id'] ? "selected" : "" ?>><?= $category['name'] ?></option>
                                             <?php } ?>
                                         </select>
@@ -113,7 +118,7 @@
                                     </td>
                                 </tr>
                                 <script>
-                                    let loadFile = function(event){
+                                    let loadFile = function(event) {
                                         let output = document.getElementById('preview_img');
                                         output.src = URL.createObjectURL(event.target.files[0]);
                                     };
@@ -128,7 +133,7 @@
             </div>
         </form>
         <hr>
-            <form enctype="multipart/form-data" method="post" action="./updateTicket">
+        <form enctype="multipart/form-data" method="post" action="./updateTicket">
             <div class="row">
                 <div class="col-6">
 
@@ -200,6 +205,6 @@
             </div>
         </form>
         <hr>
-       
+
     </div>
-</div>   
+</div>

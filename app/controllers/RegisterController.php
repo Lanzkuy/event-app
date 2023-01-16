@@ -38,14 +38,14 @@ class RegisterController extends Controller
 
             Flasher::setFlash('Register success', 'success');
             header('Location: ' . BASE_URL . '/');
-
         } catch (Exception $ex) {
             Flasher::setFlash($ex->getMessage(), 'danger');
             $this->back();
         }
     }
 
-    private function back() : void {
+    private function back(): void
+    {
         echo "<script>location.href = '" . BASE_URL . "/register';</script>";
         return;
     }

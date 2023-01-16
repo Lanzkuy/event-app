@@ -9,6 +9,7 @@ use App\Services\TicketService;
 use App\Services\OrderService;
 use App\Services\CategoryService;
 use App\Services\OrderDetailService;
+use Flasher;
 
 class UserHomeController extends Controller
 {
@@ -111,7 +112,9 @@ class UserHomeController extends Controller
             $this->view('user/event/detail', $data);
             $this->view('templates/footer');
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+            Flasher::setFlash($ex->getMessage(), 'danger');
+            echo "<script>location.href = '" . BASE_URL . "/dashboard';</script>";
+            return;
         }
     }
 }
