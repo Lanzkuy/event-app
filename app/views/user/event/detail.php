@@ -52,6 +52,10 @@
                     <b><?= $data['event']['title'] ?></b>
                 </h2>
                 <p class="mt-4">
+                    Author:<br>
+                    <?= $data['event']['user_name']  ?><br>
+                </p>
+                <p class="mt-4">
                     Category:<br>
                     <?= $data['event']['category_name']  ?><br>
                 </p>
