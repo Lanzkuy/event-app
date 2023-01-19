@@ -15,7 +15,7 @@
     <input type="password" name="confirm_password" class="form-control">
 </div>
 <label>Role</label>
-<select class="form-select" name="role" value="<?= $data['editData']->role; ?>">
+<select class="form-select" name="role">
     <option value="admin">Admin</option>
     <option value="user">User</option>
 </select>
