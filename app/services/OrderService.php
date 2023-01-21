@@ -9,7 +9,6 @@ use App\Models\OrderStoreRequest;
 use App\Repositories\OrderRepository;
 use App\Models\OrderDetailStoreRequest;
 use App\Exceptions\InputValidationException;
-use App\Exceptions\ServiceManagementException;
 
 class OrderService
 {
